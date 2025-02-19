@@ -1,0 +1,58 @@
+* {
+    color: yellow;
+}
+
+h1 {
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', serif;
+    font-size: 30px
+}
+
+body {
+    background-color: aqua;
+}
+
+.background{
+    background-color: aquamarine;
+    height: 100%;
+    width: 100%;
+}
+
+.hoverable{
+    cursor:pointer;
+}
+
+.topBar {
+    border: 1px black solid;
+    display: flex;
+    flex-flow: row;
+    height: 15%;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.options {
+    border: 1px red dotted;
+    display: flex;
+    height: inherit;
+    width: 50%;
+    justify-content: space-between;
+    align-items: center
+
+}
+
+.hidden {
+    display: none;
+}
+
+#mainTitle {
+    margin-left: 1vw;
+}
+
+#hamburger {
+    width: 10vw; 
+}
+
+#dropdown {
+    width: 10%;
+}
