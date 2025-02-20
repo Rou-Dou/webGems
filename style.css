@@ -1,58 +1,109 @@
-* {
-    color: yellow;
-}
-
-h1 {
-    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', serif;
-    font-size: 30px
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 12pt;
+    vertical-align: baseline;
+    box-sizing: border-box;
 }
 
 body {
     background-color: aqua;
 }
 
-.background{
-    background-color: aquamarine;
-    height: 100%;
-    width: 100%;
+li {
+    background-color: white;
+    color: black;
+    font-weight: 700;
+    cursor: pointer;
+    margin: 7.5%;
+    padding: 4%;
+    width: 8.5vw;
+}
+
+ul {
+    list-style-type: none;
+    align-items: flex-start;
+}
+
+.impact {
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
 }
 
 .hoverable{
-    cursor:pointer;
+    cursor: pointer;
+}
+
+.flex {
+    display: flex;
+}
+
+.column {
+    flex-direction: column;
+}
+
+.row {
+    flex-direction: row;
+}
+
+.centerItems {
+    align-items: center;
+}
+
+.alignText {
+    text-align: center;
+}
+
+.justifyContent{
+    justify-content: space-around;
 }
 
 .topBar {
-    border: 1px black solid;
-    display: flex;
-    flex-flow: row;
-    height: 15%;
+    height: 70px;
+    width: 100vw;
+    justify-content: space-between;
+    padding: 1px;
+    background-color: grey;
+}
+
+.iconBar {
+    height: 50%;
     width: 100%;
-    align-items: center;
     justify-content: space-between;
 }
 
-.options {
-    border: 1px red dotted;
-    display: flex;
-    height: inherit;
-    width: 50%;
-    justify-content: space-between;
-    align-items: center
+.iconBar img {
+    max-width: 3vw;
+    height: auto;
+}
 
+.options {
+    width: 50%;
+    justify-content: space-evenly;
+}
+
+.moreOptions {
+    width: 25%;
+    justify-content: space-evenly;
 }
 
 .hidden {
     display: none;
 }
 
-#mainTitle {
+.bigTitle {
     margin-left: 1vw;
+    font-size: 2rem;
 }
 
-#hamburger {
-    width: 10vw; 
+.smallTitle {
+    font-size: 1.2em;
 }
 
 #dropdown {
-    width: 10%;
+    width: 10vw;
+    margin-left: 2.5rem;
+    margin-top: 1rem;
+    background-color: grey;
+    border-radius: 0.5rem;
 }

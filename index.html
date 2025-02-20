@@ -6,22 +6,29 @@
     <title>Document</title>
 </head>
 <body>
-    <div class="background">
-        <div class="topBar" id="topBar">
-            <div class="options" id="options">
+    <div class="flex row topBar centerItems" id="topBar">
+        <div class="flex row iconBar">
+            <div class="flex row centerItems options" id="options">
                 <img class="hamburger hoverable" id="hamburger" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRTZouQ-9DNY0tGVLLTEh_S9nRB0uMIPH9KLA8_lym_IPv9M3RWB0kAZg6Lx6EN92hnyUE&usqp=CAU"/>
-                <h1 class="bigTitle hoverable" id="mainTitle" >Web Gems</h1>
-                <h2 class="smallTitle hoverable" id="puzzlesText">Puzzles</h2>
-                <h2 class="smallTitle hoverable" id="puzzlesText">Battle</h2>
-                <h2 class="smallTitle hoverable" id="puzzlesText">🕶️ Remove Ads</h2>
+                <div class="impact bigTitle hoverable" id="mainTitle">Web Gems</div>
+                <div class="impact smallTitle hoverable" id="puzzlesText">Puzzles</div>
+                <div class="impact smallTitle hoverable" id="battlesText">Battle</div>
+                <div class="impact smallTitle hoverable" id="removeAdsText">🕶️ Remove Ads</div>
+            </div>
+            <div class="flex row moreOptions centerItems" id="moreOptions">
+                <img class="hoverable" id="volumeIcon" src="https://cdn-icons-png.flaticon.com/512/25/25695.png"/>
+                <img class="hoverable" id="cogWheel" src="https://cdn-icons-png.flaticon.com/512/25/25442.png"/>
+                <div class="impact smallTitle hoverable" id="signInText">Sign In</div>
             </div>
         </div>
-        
-        <div class="hidden" id="dropdown">
-            <ol>
-                <li>Thing</li>
-            </ol>
-        </div>
+    </div>
+    
+    <div class="flex hidden" id="dropdown">
+        <ul class="flex column justifyContent">
+            <li>Thing1</li>
+            <li>Thing2</li>
+            <li>Thing3</li>
+        </ul>
     </div>
 </body>
 
