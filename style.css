@@ -47,11 +47,19 @@ ul {
     background-color: white;
     border-radius: 1.5rem;
     transition: 0.5s;
+    justify-content: center;
+    align-content: center;
 }
 
 .square:hover {
     background-color: darkgrey;
     transition: 0.5s;
+}
+
+.square::after{
+    content: "content";
+    color: white;
+    margin-left: 25%;
 }
 
 .content {
