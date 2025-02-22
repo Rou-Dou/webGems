@@ -30,6 +30,47 @@ ul {
     font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
 }
 
+.fullWidth {
+    width: 100vw;
+}
+
+.contentContainer {
+    width: 20%;
+    height: 70%;
+    background-color: grey;
+    border-radius: 1.5rem;
+}
+
+.square {
+    width: 40%;
+    height: 40%;
+    background-color: white;
+    border-radius: 1.5rem;
+    transition: 0.5s;
+}
+
+.square:hover {
+    background-color: darkgrey;
+    transition: 0.5s;
+}
+
+.content {
+    height: 50vh;
+    border: 1px solid red;
+}
+
+.gap {
+    height: 10vh;
+    border: 2px dashed purple;
+    align-content: center;
+}
+
+.gap::after {
+    content: "I'm a gap";
+    margin: auto;
+    font-size: 3rem;
+}
+
 .hoverable{
     cursor: pointer;
 }
@@ -56,6 +97,10 @@ ul {
 
 .justifyContent{
     justify-content: space-around;
+}
+
+.wrapOn {
+    flex-wrap: wrap;
 }
 
 .topBar {
