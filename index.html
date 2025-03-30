@@ -10,10 +10,18 @@
         <div class="flex row iconBar">
             <div class="flex row centerItems options" id="options">
                 <img class="hamburger hoverable" id="hamburger" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRTZouQ-9DNY0tGVLLTEh_S9nRB0uMIPH9KLA8_lym_IPv9M3RWB0kAZg6Lx6EN92hnyUE&usqp=CAU"/>
-                <div class="impact bigTitle hoverable" id="mainTitle">Web Gems</div>
-                <div class="impact smallTitle hoverable" id="puzzlesText">Puzzles</div>
-                <div class="impact smallTitle hoverable" id="battlesText">Battle</div>
-                <div class="impact smallTitle hoverable" id="removeAdsText">🕶️ Remove Ads</div>
+                <div class="hoverable" id="mainTitle">
+                    <span class="impact bigTitle " id="webGemsTitle">Web Gems</span>
+                </div>
+                <div class="hoverable">
+                    <span class="impact smallTitle" id="puzzlesText">Puzzles</span>
+                </div>
+                <div class="hoverable">
+                    <span class="impact smallTitle" id="battlesText">Battle</span>
+                </div>
+                <div class="hoverable">
+                    <span class="impact smallTitle" id="removeAdsText">🕶️ Remove Ads</span>
+                </div>
             </div>
             <div class="flex row moreOptions centerItems" id="moreOptions">
                 <img class="hoverable" id="volumeIcon" src="https://cdn-icons-png.flaticon.com/512/25/25695.png"/>
@@ -35,46 +43,43 @@
     </div>
 
     <div class="flex row fullWidth content centerItems justifyContent" id="content">
-        <div class="contentContainer flex centerItems justifyContent wrapOn">
-            <div class="square hoverable">
+        <div class="contentContainer flex centerItems justifyContent wrapOn row">
+            <div class="rectangle flex centerItems">
+                <img class="playerPicture" src="https://www.baseball-reference.com/req/202412180/images/headshots/4/4cd8a0aa_br_bal.jpg"/>
             </div>
-            <div class="square hoverable">
-            </div>
-            <div class="square hoverable">
-            </div>
-            <div class="square hoverable">
+            <div class="rectangle flex centerItems">
+                <div>
+                    <h2>Player Info</h2>
+                    <br><br>
+                    <p>Name: Joe</p>
+                    <p>years actiev: 2010-2020</p>
+                </div>
             </div>
         </div>
-        <div class="contentContainer flex centerItems justifyContent wrapOn">
-            <div class="square hoverable">
-            </div>
-            <div class="square hoverable">
-            </div>
-            <div class="square hoverable">
-            </div>
-            <div class="square hoverable">
-            </div>
-        </div>       <div class="contentContainer flex centerItems justifyContent wrapOn">
-            <div class="square hoverable">
-            </div>
-            <div class="square hoverable">
-            </div>
-            <div class="square hoverable">
-            </div>
-            <div class="square hoverable">
-            </div>
-        </div>       <div class="contentContainer flex centerItems justifyContent wrapOn">
-            <div class="square hoverable">
-            </div>
-            <div class="square hoverable">
-            </div>
-            <div class="square hoverable">
-            </div>
-            <div class="square hoverable">
-            </div>
-        </div> 
-        
     </div>
+    <div class="smallGap">
+    </div>
+    <div class="flex column subContainer centerItems justifyContent">
+        <h2>Guess</h2>
+        <div class="textInput halfWidthPercent flex">
+            <input class="fullWidth" type="text" placeholder="Guess" id="guess"/>
+        </div>
+    </div>
+    <button type="button" id="submitButton">
+        Submit!
+    </button>
+
+
+        <!-- <div class="contentContainer flex centerItems justifyContent wrapOn">
+            <div class="square hoverable">
+            </div>
+            <div class="square hoverable">
+            </div>
+            <div class="square hoverable">
+            </div>
+            <div class="square hoverable">
+            </div>
+        </div>  -->
 
 </body>
 

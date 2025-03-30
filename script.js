@@ -7,3 +7,15 @@ document.getElementById("hamburger").addEventListener("click", () => {
         document.getElementById("dropdown").classList.add("hidden");
     }
 });
+
+document.getElementById("submitButton").addEventListener('click', (e) =>{
+    const guess = document.getElementById("guess").value
+
+    document.getElementById("guess").value = ""
+
+})
+
+async function makeGuess(guess) {
+    const https://
+    await fetch()
+}
