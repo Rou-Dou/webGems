@@ -16,8 +16,10 @@
       console.log(`Server listening on port ${port}`);
     });
 
+    // Get a random player from the player list
     function getPlayer() {
       const jsonFile = require("./players.json");
-      return jsonFile.Name
-
+      let numPlayers = Object.keys(jsonFile.Name).length
+      const randNum = Math.round(Math.random() * numPlayers)
+      return jsonFile.Name[randNum]
     }
