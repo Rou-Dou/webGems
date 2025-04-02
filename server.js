@@ -6,10 +6,9 @@
     app.use(express.static("public"));
 
     app.get("/getplayer", (req, res) => {
-      let player_json = getPlayer();
-      json_file = JSON.stringify(player_json)
+      let jsonFile = getPlayer();
       res.header("Content-Type", 'application/json');
-      res.json(json_file);
+      res.json(jsonFile);
 
     });
 
@@ -18,8 +17,7 @@
     });
 
     function getPlayer() {
-      const json_file = require("./players.json");
-      let json_parsed = JSON.parse(json_file);
-      return player_json = json_parsed["Name"]
+      const jsonFile = require("./players.json");
+      return jsonFile.Name
 
     }
