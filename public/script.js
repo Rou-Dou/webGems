@@ -1,18 +1,22 @@
-document.getElementById("hamburger").addEventListener("click", () => {
-    if (document.getElementById("dropdown").classList.contains("hidden")) {
-        document.getElementById("dropdown").classList.remove("hidden");
+let hamburgerMenu = document.getElementById("hamburger");
+let hamburgerDropdown = document.getElementById("dropdown");
+const submitButton = document.getElementById("submitButton");
+
+hamburgerMenu.addEventListener("click", () => {
+    if (hamburgerDropdown.classList.contains("hidden")) {
+        hamburgerDropdown.classList.remove("hidden");
     }
 
     else {
-        document.getElementById("dropdown").classList.add("hidden");
+        hamburgerDropdown.classList.add("hidden");
     }
 });
 
-document.getElementById("submitButton").addEventListener('click', (e) =>{
-    const guess = document.getElementById("guess").value
-
-    document.getElementById("guess").value = ""
-
+submitButton.addEventListener('click', (e) =>{
+    let userText = document.getElementById("guess");
+    const guess = userText.innerText
+    console.log(userText)
+    userText.innerText = "";
 })
 
 // async function makeGuess(guess) {
