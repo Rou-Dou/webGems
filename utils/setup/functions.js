@@ -1,5 +1,5 @@
 import jsonData from "../../players.json" with { type: "json"}
-import mysql from "mysql";
+let mysql = require("mysql2");
 
 export function getPlayer() {
     let connection = mysql.createConnection({
