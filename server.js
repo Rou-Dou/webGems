@@ -7,9 +7,9 @@
     app.use(express.static("public"));
 
     app.get("/getplayer", (req, res) => {
-      let jsonFile = functions.getPlayer();
-      res.header("Content-Type", 'application/json');
-      res.json(jsonFile);
+      let response = functions.getPlayer();
+      res.header("Content-Type", 'text/plain');
+      res.send(response)
     });
 
     app.listen(port, () => {
