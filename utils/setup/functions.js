@@ -16,8 +16,7 @@ export function getPlayer() {
         if (error) throw error;
         console.log('Here is stuff', results, typeof results)
         player = results[0].FirstName + " " + results[0].LastName
-
-
+        console.log(player)
     });
 
     connection.end();
