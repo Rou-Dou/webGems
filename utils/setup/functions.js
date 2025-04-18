@@ -15,7 +15,6 @@ export function getPlayer() {
     connection.query('SELECT * FROM Players', function(error, results, fields) {
         if (error) throw error;
         player = results[0].FirstName + " " + results[0].LastName
-        console.log("Player: ", player)
     });
 
     connection.end();

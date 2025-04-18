@@ -8,7 +8,8 @@
 
     app.get("/getplayer", async (req, res) => {
       const response = await functions.getPlayer();
-      console.log(response)
+      console.log("this is a message: ", response)
+      res.send(response)
     });
 
     app.listen(port, () => {
