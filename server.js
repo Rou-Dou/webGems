@@ -7,10 +7,8 @@
     app.use(express.static("public"));
 
     app.get("/getplayer", async (req, res) => {
-      let response = await functions.getPlayer();
-      response.then((r) => {
-        console.log(r)
-      });
+      const response = await functions.getPlayer();
+      console.log(response)
     });
 
     app.listen(port, () => {

@@ -1,6 +1,6 @@
 import mysql, { Connection } from "mysql2"
 
-export async function getPlayer() {
+export function getPlayer() {
     let connection = mysql.createConnection({
         host: "localhost",
         user: "root",
@@ -20,10 +20,14 @@ export async function getPlayer() {
 
     connection.end();
 
-    const myPromise = await new Promise((myResolve, myError) => {
-        myResolve(player);
-        myError("error");
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            if (player != "") {
+                resolve(player)
+            }
+            else {
+                reject("error")
+            }
+        }, 1500)
     });
-
-    return myPromise
-};
+}
