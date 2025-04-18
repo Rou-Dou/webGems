@@ -8,9 +8,9 @@
 
     app.get("/getplayer", async (req, res) => {
       let response = await functions.getPlayer();
-      res.setHeader("Content-Type", "text/plain")
-      res.send(response)
-
+      response.then((r) => {
+        console.log(r)
+      });
     });
 
     app.listen(port, () => {
