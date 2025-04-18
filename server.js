@@ -6,8 +6,8 @@
 
     app.use(express.static("public"));
 
-    app.get("/getplayer", (req, res) => {
-      let response = functions.getPlayer();
+    app.get("/getplayer", async (req, res) => {
+      let response = await functions.getPlayer();
       response.then((r) => {
         console.log(r)
       });
