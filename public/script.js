@@ -18,20 +18,10 @@ hamburgerMenu.addEventListener("click", () => {
 window.onload = (e) => {
     console.log("event: ", e);
     let response = fetch(`${url}${getPlayer}`);
-    response.then((res) => {
-        const reader = res.body.getReader()
-        reader.read().then((function pump({done, value}) {
-            if (done) {
-                console.log("this is a value: ", value);
-                return;
-            }
-            else {
-                console.error("no value");
-            }
-            return reader.read().then(pump);
-        }))
-    });
-}
+    response.then((value) => {
+        console.log("this is the body:", value.body);
+    })
+};
 
 submitButton.addEventListener('click', (e) =>{
     let userText = document.getElementById("guess");
@@ -39,4 +29,3 @@ submitButton.addEventListener('click', (e) =>{
     console.log(userText)
     userText.innerText = "";
 });
-
