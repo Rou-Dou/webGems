@@ -17,7 +17,10 @@ hamburgerMenu.addEventListener("click", () => {
 
 window.onload = (e) => {
     console.log("event: ", e);
-    playerName.innerText = fetch(`${url}${getPlayer}`);
+    let response = playerName.innerText = fetch(`${url}${getPlayer}`);
+    response.then((res) => {
+        console.log("response: ", res)
+    })
 }
 
 submitButton.addEventListener('click', (e) =>{
