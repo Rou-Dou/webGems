@@ -15,13 +15,32 @@ hamburgerMenu.addEventListener("click", () => {
     }
 });
 
-window.onload = (e) => {
-    console.log("event: ", e);
+window.onload = ((e) => {
     let response = fetch(`${url}${getPlayer}`);
     response.then((value) => {
-        console.log("this is the body:", value.body);
+        const reader = value.body.getReader()
+        return new ReadableStream({
+            start(controller) {
+                return pump();
+                function pump() {
+                    return reader.read().then(({done, value}) => {
+                        if(done) {
+                            controller.close();
+                            return;
+                        }
+                        controller.enqueue(value);
+                        return pump();
+                    });
+                }
+            },
+        });
     })
-};
+    .then((stream) => new Response(stream))
+    .then((response) => {
+        console.log("a response: ", response);
+        playerName.innerText = response
+    })
+});
 
 submitButton.addEventListener('click', (e) =>{
     let userText = document.getElementById("guess");
