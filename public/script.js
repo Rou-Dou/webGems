@@ -15,9 +15,10 @@ hamburgerMenu.addEventListener("click", () => {
     }
 });
 
-window.onload(() => {
+window.onload = (e) => {
+    console.log("event: ", e);
     playerName.innerText = fetch(`${url}${getPlayer}`);
-});
+}
 
 submitButton.addEventListener('click', (e) =>{
     let userText = document.getElementById("guess");
