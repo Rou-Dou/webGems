@@ -17,10 +17,20 @@ hamburgerMenu.addEventListener("click", () => {
 
 window.onload = (e) => {
     console.log("event: ", e);
-    let response = playerName.innerText = fetch(`${url}${getPlayer}`);
+    let response = fetch(`${url}${getPlayer}`);
     response.then((res) => {
-        console.log("response: ", res)
-    })
+        const reader = res.body.getReader()
+        reader.read().then((function pump({done, value}) {
+            if (done) {
+                console.log("this is a value: ", value);
+                return;
+            }
+            else {
+                console.error("no value");
+            }
+            return reader.read().then(pump);
+        }))
+    });
 }
 
 submitButton.addEventListener('click', (e) =>{
