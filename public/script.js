@@ -15,7 +15,7 @@ hamburgerMenu.addEventListener("click", () => {
     }
 });
 
-document.onload(() => {
+window.onload(() => {
     playerName.innerText = fetch(`${url}${getPlayer}`);
 });
 
