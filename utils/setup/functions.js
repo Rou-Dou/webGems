@@ -94,12 +94,10 @@ export function searchSession(sessions, token) {
                 resolve(session)
             })
         }
-        else {
-            console.log("no match")
-            return new Promise((resolve, reject) => {
-                resolve(new Session(""))
-            })
-        }
     }
+    return new Promise((resolve, reject) => {
+        console.log("No Match");
+        reject("No Match");
+    })
 }
 
