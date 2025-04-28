@@ -28,10 +28,10 @@
         gameSessions.Sessions.push(value);
         console.log("New Session: ", value);
         console.log(gameSessions);
-      });
-      res.set("Content-Type", "text/plain");
-      res.send(newSession.sessionID);
-      console.log("Session ID: ", newSession.sessionID);
+        res.set("Content-Type", "text/plain");
+        res.send(newSession.sessionID);
+        console.log("Session ID: ", newSession.sessionID);
+      })
     });
 
     app.get("/getSessionInfo:token", async (req, res) => {
