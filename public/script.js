@@ -50,7 +50,7 @@ window.onload = (async (e) => {
         method: "GET"
     }).then((value) => {
         value.body.getReader().read().then(({done, value}) => {
-            console.log(decodeuint8String(value))
+            console.log(value)
             return decodeuint8String(value)
         })
     })
