@@ -49,7 +49,7 @@ window.onload = (async (e) => {
     const sessionInfo = await fetch(`${url}${getSession}:${token}`, {
         method: "GET"
     }).then((value) => {
-        console.log("this is the session info: ", value)
+        console.log("this is the session info: ", value.body.getReader().read())
     })
 });
 
