@@ -14,8 +14,6 @@
     app.get("/getplayer", async (req, res) => {
       const response = await functions.getPlayer()
       console.log("this is a message: ", response);
-      res.set("Access-Control-Allow-Origin", "*");
-      res.set("Access-Control-Allow-Methods", "GET");
       res.set("Content-Type", "text/plain");
       res.send(response);
     });
@@ -25,8 +23,6 @@
       console.log("Created a new session: ", newSession);
       gameSessions.Sessions.push(newSession);
       console.log(gameSessions);
-      res.set("Access-Control-Allow-Origin", "*");
-      res.set("Access-Control-Allow-Methods", "GET");
       res.set("Content-Type", "text/plain");
       res.send(newSession.sessionID);
       console.log("Session ID: ", newSession.sessionID);
@@ -41,8 +37,6 @@
         return value
       })
       console.log('returned info: ', returnInfo)
-      res.set("Access-Control-Allow-Origin", "*");
-      res.set("Access-Control-Allow-Methods", "GET");
       res.set("Content-Type", "application/json");
       res.send(returnInfo);
       console.log("parsed info: ", returnInfo)
