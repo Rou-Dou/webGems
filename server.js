@@ -38,7 +38,7 @@
       res.set("Access-Control-Allow-Methods", "GET");
       res.set("Content-Type", "application/json");
       console.log("params: ", req.params.token)
-      const sessionInfo = functions.searchSession(gameSessions, req.params.token);
+      const sessionInfo = functions.searchSession(gameSessions.Sessions, req.params.token);
       console.log("the session info: ", sessionInfo)
       let returnInfo = sessionInfo.then((value) => {
         console.log("This is the session info value: ", value)
