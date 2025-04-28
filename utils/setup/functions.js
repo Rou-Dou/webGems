@@ -83,14 +83,19 @@ export function generateNewSession() {
 
 export function searchSession(sessions, token) {
     for (let session of sessions) {
+        console.log("sessions: ", sessions)
+        console.log("session: ", session)
+        console.log("argument token: ", token)
         if (token == session.sessionID && 
             session.active) {
+                console.log("session token matched and active!")
             
             return new Promise((resolve, reject) => {
                 resolve(session)
             })
         }
         else {
+            console.log("no match")
             return new Promise((resolve, reject) => {
                 resolve(new Session(""))
             })
