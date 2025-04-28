@@ -1,4 +1,37 @@
 import mysql, { Connection } from "mysql2"
+import crypto from "crypto"
+
+export class Player {
+    constructor(session, name, guess = "") {
+        this.sessionID = session;
+        this.name = "";
+        this.guess = "";
+        this.online = true;
+    }
+}
+
+export class Session {
+    constructor(sessionID) {
+        this.sessionID = sessionID;
+        this.sessionStart = Date.now();
+        this.sessionEnd = Date.now();
+        this.active = true;
+    }
+
+    endSession() {
+        this.sessionEnd = Date.now();
+        this.active = false;
+    }
+
+    toJSON() {
+        return {
+            sessionID: this.sessionID,
+            sessionStart: this.sessionStart,
+            sessionEnd: this.sessionEnd,
+            active: this.active
+        };
+    }
+}
 
 export function getPlayer() {
     let connection = mysql.createConnection({
@@ -30,3 +63,38 @@ export function getPlayer() {
         }, 1500)
     });
 }
+
+// export function checkGuess(guess) {
+
+// }
+
+export function generateNewSession() {
+    const newSession = new Session(crypto.randomUUID());
+
+    return new Promise((resolve, reject) => {
+        if (newSession.sessionID != "") {
+            resolve(newSession)
+        }
+        else {
+            reject("Weird error!")
+        }
+    })
+}
+
+export function searchSession(sessions, token) {
+    for (let session of sessions) {
+        if (token == session.sessionID && 
+            session.active) {
+            
+            return new Promise((resolve, reject) => {
+                resolve(session)
+            })
+        }
+        else {
+            return new Promise((resolve, reject) => {
+                resolve(new Session(""))
+            })
+        }
+    }
+}
+
