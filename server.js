@@ -29,8 +29,8 @@
         console.log("New Session: ", value);
         console.log(gameSessions);
         res.set("Content-Type", "text/plain");
-        res.send(newSession.sessionID);
-        console.log("Session ID: ", newSession.sessionID);
+        res.send(value.sessionID);
+        console.log("Session ID: ", value.sessionID);
       })
     });
 
