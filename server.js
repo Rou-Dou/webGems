@@ -12,6 +12,8 @@
     app.use(express.static("public"));
 
     app.get("/getplayer", async (req, res) => {
+      res.set("Access-Control-Allow-Origin", "*");
+      res.set("Access-Control-Allow-Methods", "GET");
       const response = await functions.getPlayer()
       console.log("this is a message: ", response);
       res.set("Content-Type", "text/plain");
@@ -19,16 +21,22 @@
     });
 
     app.get("/getSessionToken", async (req, res) => {
-      const newSession = await functions.generateNewSession();
-      console.log("Created a new session: ", newSession);
-      gameSessions.Sessions.push(newSession);
-      console.log(gameSessions);
+      res.set("Access-Control-Allow-Origin", "*");
+      res.set("Access-Control-Allow-Methods", "GET");
+      const newSession = await functions.generateNewSession()
+      .then((value) => {
+        gameSessions.Sessions.push(value);
+        console.log("New Session: ", value);
+        console.log(gameSessions);
+      });
       res.set("Content-Type", "text/plain");
       res.send(newSession.sessionID);
       console.log("Session ID: ", newSession.sessionID);
     });
 
     app.get("/getSessionInfo:token", async (req, res) => {
+      res.set("Access-Control-Allow-Methods", "GET");
+      res.set("Content-Type", "application/json");
       console.log("params: ", req.params.token)
       const sessionInfo = functions.searchSession(req.params.token);
       console.log("the session info: ", sessionInfo)
@@ -37,7 +45,7 @@
         return value
       })
       console.log('returned info: ', returnInfo)
-      res.set("Content-Type", "application/json");
+      res.set("Access-Control-Allow-Origin", "*");
       res.send(returnInfo);
       console.log("parsed info: ", returnInfo)
     }); 
