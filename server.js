@@ -43,7 +43,7 @@
       console.log("the session info: ", sessionInfo)
       let returnInfo = sessionInfo.then((value) => {
         console.log("This is the session info value: ", value)
-        return value.json()
+        return JSON.stringify(value)
       })
       console.log("Returned Info ----> ", returnInfo)
       res.set("Access-Control-Allow-Origin", "*");
