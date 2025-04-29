@@ -41,15 +41,13 @@
 
       const sessionInfo = functions.searchSession(gameSessions.Sessions, token);
       console.log("the session info: ", sessionInfo)
-      let returnInfo = sessionInfo.then((value) => {
+      sessionInfo.then((value) => {
         console.log("This is the session info value: ", value)
-        return JSON.stringify(value)
+        res.set("Access-Control-Allow-Origin", "*");
+        res.set("Access-Control-Allow-Methods", "GET");
+        res.set("Content-Type", "application/json");
+        res.send(value);
       })
-      console.log("Returned Info ----> ", returnInfo)
-      res.set("Access-Control-Allow-Origin", "*");
-      res.set("Access-Control-Allow-Methods", "GET");
-      res.set("Content-Type", "application/json");
-      res.send(returnInfo);
     }); 
 
     app.listen(port, () => {
