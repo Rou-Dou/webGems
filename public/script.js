@@ -59,9 +59,8 @@ window.onload = (async (e) => {
         })
     })
     sessionInfo = decodeuint8String(playerSession)
+    console.log("Returned session info ----> ", sessionInfo);
 });
-
-console.log("Returned session info ----> ", sessionInfo);
 
 
 
