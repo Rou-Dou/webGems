@@ -82,22 +82,17 @@ export function generateNewSession() {
 }
 
 export function searchSession(sessions, token) {
-    for (let session of sessions) {
-        console.log("sessions: ", sessions)
-        console.log("session: ", session)
-        console.log("argument token: ", token)
-        if (token == session.sessionID && 
-            session.active) {
-                console.log("session token matched and active!")
-            
-            return new Promise((resolve, reject) => {
-                resolve(session)
-            })
-        }
-    }
     return new Promise((resolve, reject) => {
-        console.log("No Match");
-        reject("No Match");
-    })
+        for (let session of sessions) {
+            console.log("Session ----> ", session);
+            console.log("token ----> ", token)
+            if (token === session.sessionID && session.active) {
+                console.log("token matched and active!");
+                resolve(session)
+                return;
+            }
+        }
+        reject(new Session(""))
+    });
 }
 
