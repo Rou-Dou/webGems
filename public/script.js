@@ -1,21 +1,25 @@
 let hamburgerMenu = document.getElementById("hamburger");
 let hamburgerDropdown = document.getElementById("dropdown");
 let playerName = document.getElementById("PlayerName");
-let sessionInfo;
+let playerSession;
 const userName = "user1"
-const url = "http://192.168.1.166:8080"
+// const url = "http://192.168.1.166:8080"
+const url = "http://localhost:8080"
 const getPlayer = "/getplayer"
 const getToken = "/getSessionToken"
 const getSession = "/getSessionInfo"
+const makeGuess = "/makeGuess";
 const submitButton = document.getElementById("submitButton");
 
 async function getSessionToken() {
     await fetch(`${url}${getToken}`, {method: 'GET'})
     .then((response) => {
+        console.log("session token response ----> ", response);
         return response.text();
     })
     .then((data) => {
-        return token = data;
+        console.log("data ---->", data)
+        return token = data
     })
 }
 
@@ -33,40 +37,36 @@ hamburgerMenu.addEventListener("click", () => {
     }
 });
 
-let token = getSessionToken();
+console.log("I will now attempt to get the session token");
+let token = getSessionToken()
 
-window.onload = (async (e) => {
-    // get player info to fill on web page
-    console.log("fetching player info");
-    const response = await fetch(`${url}${getPlayer}`)
-    console.log("this is the response: ", response);
-    response.body.getReader().read().then(({done, value}) => {
-        console.log(decodeuint8String(value))
-        const pn = decodeuint8String(value)
-        playerName.innerText = pn
-    });
-
-    // get session info to 
+token.then(async () => {
     console.log("fetching session info");
-    console.log(token)
-    const playerSession = await fetch(`${url}${getSession}:${token}`, {
+    playerSession = await fetch(`${url}${getSession}:${token}`, {
         method: "GET"
     })
     .then((value) => {
-        value.body.getReader().read().then(({done, value}) => {
-            console.log(value)
-            return decodeuint8String(value)
+        value.body.getReader().read()
+        .then(({done, value}) => {
+            console.log("session object ----> ", JSON.parse(decodeuint8String(value)))
+            return playerSession = JSON.parse(decodeuint8String(value));
         })
     })
-    sessionInfo = decodeuint8String(playerSession)
-    console.log("Returned session info ----> ", sessionInfo);
-});
-
+})
 
 
 submitButton.addEventListener('click', (e) =>{
+    console.log(token)
     let userText = document.getElementById("guess");
     const guess = userText.value;
     console.log(userText.value);
     userText.value = "";
+    const response = fetch(`${url}${makeGuess}/${token}/${guess}`)
+    console.log("response from makeGuess ---->", response)
+    response.then((value)=> {
+        value.body.getReader().read()
+        .then(({done, value}) => {
+            console.log("This is the data ---->", decodeuint8String(value));
+        })
+    })
 });

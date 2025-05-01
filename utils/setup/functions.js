@@ -1,4 +1,4 @@
-import mysql, { Connection } from "mysql2"
+import mysql from "mysql2/promise"
 import crypto from "crypto"
 
 export class Player {
@@ -15,6 +15,7 @@ export class Session {
         this.sessionID = sessionID;
         this.sessionStart = Date.now();
         this.sessionEnd = Date.now();
+        this.answer = "";
         this.active = true;
     }
 
@@ -28,40 +29,35 @@ export class Session {
             sessionID: this.sessionID,
             sessionStart: this.sessionStart,
             sessionEnd: this.sessionEnd,
+            answer: this.answer,
             active: this.active
         };
     }
 }
 
-export function getPlayer() {
-    let connection = mysql.createConnection({
+export async function getPlayer() {
+    console.log("getPlayer")
+    let connection = await mysql.createConnection({
         host: "localhost",
         user: "root",
         password: "Wgtfyghtf90)",
         database: "testdb"
-    });
+   })
 
     connection.connect();
 
-    let player;
-
-    connection.query('SELECT * FROM Players', function(error, results, fields) {
-        if (error) throw error;
-        player = results[0].FirstName + " " + results[0].LastName
-    });
+    const [results, fields] = await connection.query(`SELECT * FROM Players`)
+    const playerName = `${results[0].FirstName} ${results[0].LastName}`;
 
     connection.end();
 
-    return new Promise((resolve, reject) => {
-        setTimeout(() => {
-            if (player != "") {
-                resolve(player)
-            }
-            else {
-                reject("error")
-            }
-        }, 1500)
-    });
+    if (playerName != "") {
+        return playerName;
+    }
+    else {
+        console.error('no player, AHAAAHAHHH');
+        return null;
+    }
 }
 
 // export function checkGuess(guess) {
@@ -70,29 +66,32 @@ export function getPlayer() {
 
 export function generateNewSession() {
     const newSession = new Session(crypto.randomUUID());
+    return getPlayer()
+    .then((value) => {
+        console.log("Promise value of PlayerName from GetPlayer: ", value)
+        newSession.answer = value
 
-    return new Promise((resolve, reject) => {
         if (newSession.sessionID != "") {
-            resolve(newSession)
+            return newSession
         }
         else {
-            reject("Weird error!")
+            console.error("Weird error!");
+            return new Session("")
         }
     })
-}
+};
 
 export function searchSession(sessions, token) {
-    return new Promise((resolve, reject) => {
-        for (let session of sessions) {
-            console.log("Session ----> ", session);
-            console.log("token ----> ", token)
-            if (token === session.sessionID && session.active) {
-                console.log("token matched and active!");
-                resolve(session)
-                return;
-            }
+    console.log("searchSession")
+    for (let session of sessions) {
+        console.log("Session ----> ", session);
+        console.log("token ----> ", token)
+        if (token === session.sessionID && session.active) {
+            console.log("token matched and active!");
+            return session
         }
-        reject(new Session(""))
-    });
+    }
+    console.error("oh no")
+    return new Session("")
 }
 
