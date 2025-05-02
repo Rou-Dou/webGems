@@ -3,8 +3,8 @@ let hamburgerDropdown = document.getElementById("dropdown");
 let playerName = document.getElementById("PlayerName");
 let playerSession;
 const userName = "user1"
-// const url = "http://192.168.1.166:8080"
-const url = "http://localhost:8080"
+const url = "http://192.168.1.166:8080"
+// const url = "http://localhost:8080"
 const getPlayer = "/getplayer"
 const getToken = "/getSessionToken"
 const getSession = "/getSessionInfo"
