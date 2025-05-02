@@ -29,6 +29,7 @@
         console.log("New Session: ", value);
         console.log(gameSessions);
         console.log("Session ID: ", value.sessionID);
+        console.log("headshot ---->", value.headshot)
   
         res.set("Access-Control-Allow-Origin", "*");
         res.set("Access-Control-Allow-Methods", "GET");

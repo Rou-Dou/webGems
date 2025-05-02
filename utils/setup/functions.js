@@ -16,6 +16,7 @@ export class Session {
         this.sessionStart = Date.now();
         this.sessionEnd = Date.now();
         this.answer = "";
+        this.headshot = ""
         this.active = true;
     }
 
@@ -30,6 +31,7 @@ export class Session {
             sessionStart: this.sessionStart,
             sessionEnd: this.sessionEnd,
             answer: this.answer,
+            headshot: this.headshot,
             active: this.active
         };
     }
@@ -46,13 +48,23 @@ export async function getPlayer() {
 
     connection.connect();
 
-    const [results, fields] = await connection.query(`SELECT * FROM Players`)
-    const playerName = `${results[0].FirstName} ${results[0].LastName}`;
+    // get random value for player
+
+    const [results, fields] = await connection.query(`SELECT * FROM Players`);
+
+    const randIndex = Math.round(Math.random(results.length) * results.length)
+
+    const playerName = results[randIndex].PlayerName.replace("\ufeff", "").trim();
+    const playerHeadshot = results[randIndex].Headshot.replace("&comma;", ",").trim();
+    const playerInfo = {
+        name: playerName,
+        headshot: playerHeadshot
+    };
 
     connection.end();
 
     if (playerName != "") {
-        return playerName;
+        return playerInfo
     }
     else {
         console.error('no player, AHAAAHAHHH');
@@ -69,7 +81,8 @@ export function generateNewSession() {
     return getPlayer()
     .then((value) => {
         console.log("Promise value of PlayerName from GetPlayer: ", value)
-        newSession.answer = value
+        newSession.answer = value.name
+        newSession.headshot = value.headshot
 
         if (newSession.sessionID != "") {
             return newSession

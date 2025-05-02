@@ -3,8 +3,8 @@ let hamburgerDropdown = document.getElementById("dropdown");
 let playerName = document.getElementById("PlayerName");
 let playerSession;
 const userName = "user1"
-const url = "http://192.168.1.166:8080"
-// const url = "http://localhost:8080"
+// const url = "http://192.168.1.166:8080"
+const url = "http://localhost:8080"
 const getPlayer = "/getplayer"
 const getToken = "/getSessionToken"
 const getSession = "/getSessionInfo"
@@ -48,8 +48,10 @@ token.then(async () => {
     .then((value) => {
         value.body.getReader().read()
         .then(({done, value}) => {
-            console.log("session object ----> ", JSON.parse(decodeuint8String(value)))
-            return playerSession = JSON.parse(decodeuint8String(value));
+            const sessionObj = JSON.parse(decodeuint8String(value));
+            console.log("session object ----> ", sessionObj)
+            document.querySelector(".playerPicture").src = sessionObj.headshot;
+            return playerSession = sessionObj;
         })
     })
 })
