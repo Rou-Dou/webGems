@@ -7,6 +7,7 @@
     let gameSessions;
 
     gameSessions = {Sessions: []};
+    functions.log("test log", 200);
 
     app.use(cors());
     app.use(express.static("public"));

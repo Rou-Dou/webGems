@@ -1,40 +1,15 @@
 import mysql from "mysql2/promise"
 import crypto from "crypto"
+import moment from "moment";
+import * as classes from "./classes.js"
 
-export class Player {
-    constructor(session, name, guess = "") {
-        this.sessionID = session;
-        this.name = "";
-        this.guess = "";
-        this.online = true;
-    }
-}
+export function log(arg, code) {
+    const timestamp = moment().format("MM/DD/YYYY, HH:mm:ss:SSS");
 
-export class Session {
-    constructor(sessionID) {
-        this.sessionID = sessionID;
-        this.sessionStart = Date.now();
-        this.sessionEnd = Date.now();
-        this.answer = "";
-        this.headshot = ""
-        this.active = true;
-    }
+    const newLog = new classes.Log(timestamp, arg, code);
 
-    endSession() {
-        this.sessionEnd = Date.now();
-        this.active = false;
-    }
-
-    toJSON() {
-        return {
-            sessionID: this.sessionID,
-            sessionStart: this.sessionStart,
-            sessionEnd: this.sessionEnd,
-            answer: this.answer,
-            headshot: this.headshot,
-            active: this.active
-        };
-    }
+    console.log(newLog.getLog());
+    
 }
 
 export async function getPlayer() {
@@ -77,7 +52,7 @@ export async function getPlayer() {
 // }
 
 export function generateNewSession() {
-    const newSession = new Session(crypto.randomUUID());
+    const newSession = new classes.Session(crypto.randomUUID());
     return getPlayer()
     .then((value) => {
         console.log("Promise value of PlayerName from GetPlayer: ", value)
@@ -89,7 +64,7 @@ export function generateNewSession() {
         }
         else {
             console.error("Weird error!");
-            return new Session("")
+            return new classes.Session("")
         }
     })
 };
@@ -105,6 +80,6 @@ export function searchSession(sessions, token) {
         }
     }
     console.error("oh no")
-    return new Session("")
+    return new classes.Session("")
 }
 
