@@ -2,9 +2,10 @@ let hamburgerMenu = document.getElementById("hamburger");
 let hamburgerDropdown = document.getElementById("dropdown");
 let playerName = document.getElementById("PlayerName");
 let playerSession;
+
 const userName = "user1"
-const url = "http://192.168.1.166:8080"
-// const url = "http://localhost:8080"
+// const url = "http://192.168.1.166:8080"
+const url = "http://localhost:8080"
 const getPlayer = "/getplayer"
 const getToken = "/getSessionToken"
 const getSession = "/getSessionInfo"
@@ -23,19 +24,14 @@ async function getSessionToken() {
     })
 }
 
+function decodeReadableStream(stream) {
+    return stream.body.getReader().read()
+}
+
 function decodeuint8String(string) {
     return new TextDecoder().decode(string)
 }
 
-hamburgerMenu.addEventListener("click", () => {
-    if (hamburgerDropdown.classList.contains("hidden")) {
-        hamburgerDropdown.classList.remove("hidden");
-    }
-
-    else {
-        hamburgerDropdown.classList.add("hidden");
-    }
-});
 
 console.log("I will now attempt to get the session token");
 let token = getSessionToken()
@@ -46,7 +42,7 @@ token.then(async () => {
         method: "GET"
     })
     .then((value) => {
-        value.body.getReader().read()
+        decodeReadableStream(value)
         .then(({done, value}) => {
             const sessionObj = JSON.parse(decodeuint8String(value));
             console.log("session object ----> ", sessionObj)
@@ -55,7 +51,6 @@ token.then(async () => {
         })
     })
 })
-
 
 submitButton.addEventListener('click', (e) =>{
     console.log(token)
@@ -66,9 +61,24 @@ submitButton.addEventListener('click', (e) =>{
     const response = fetch(`${url}${makeGuess}/${token}/${guess}`)
     console.log("response from makeGuess ---->", response)
     response.then((value)=> {
-        value.body.getReader().read()
+        decodeReadableStream(value)
         .then(({done, value}) => {
             console.log("This is the data ---->", decodeuint8String(value));
         })
     })
+});
+
+
+
+
+
+
+hamburgerMenu.addEventListener("click", () => {
+    if (hamburgerDropdown.classList.contains("hidden")) {
+        hamburgerDropdown.classList.remove("hidden");
+    }
+
+    else {
+        hamburgerDropdown.classList.add("hidden");
+    }
 });
