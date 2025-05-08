@@ -1,5 +1,6 @@
     // server.js
     import { getPlayer, generateNewSession, searchSession, log } from "./utils/setup/functions.mjs"
+    import { getPlayerFromDb } from "./apiHandlers/handlers.mjs"
     import express from "express";
     import cors from "cors";
     const app = express();
@@ -7,22 +8,13 @@
     let gameSessions;
 
     gameSessions = {Sessions: []};
-    log("test log", 200);
 
     app.use(cors());
     app.use(express.static("public"));
 
-    app.get("/getplayer", (req, res) => {
-      const response = getPlayer();
-      console.log("this is a message: ", response);
+    app.get("/api/getplayer", getPlayerFromDb)
 
-      res.set("Access-Control-Allow-Origin", "*");
-      res.set("Access-Control-Allow-Methods", "GET");
-      res.set("Content-Type", "text/plain");
-      res.send(response);
-    });
-
-    app.get("/getSessionToken", (req, res) => {
+    app.get("/api/getSessionToken", (req, res) => {
       generateNewSession()
       .then((value) => {
         gameSessions.Sessions.push(value);
@@ -31,7 +23,8 @@
         console.log(gameSessions);
         console.log("Session ID: ", value.sessionID);
         console.log("headshot ---->", value.headshot)
-  
+        
+        res.status(200)
         res.set("Access-Control-Allow-Origin", "*");
         res.set("Access-Control-Allow-Methods", "GET");
         res.set("Content-Type", "text/plain");
@@ -39,26 +32,29 @@
       })
     });
 
-    app.get("/getSessionInfo:token", (req, res) => {
+    app.get("/api/getSessionInfo:token", (req, res) => {
       const token = req.params.token.replace(":","").trim();
       const sessionInfo = searchSession(gameSessions.Sessions, token);
 
       console.log("the session info: ", sessionInfo);
       console.log("This is the session info value: ", sessionInfo);
       
+      res.status(200)
       res.set("Access-Control-Allow-Origin", "*");
       res.set("Access-Control-Allow-Methods", "GET");
       res.set("Content-Type", "application/json");
       res.send(sessionInfo);
     })
 
-    app.get("/makeGuess/:token/:guess", (req, res) => {
+    app.get("/api/makeGuess/:token/:guess", (req, res) => {
       console.log("This is a guess")
       console.log("req token ---->", req.params.token)
       console.log("req guess ---->", req.params.guess)
       const token = req.params.token.replace(":", "").trim();
       const sessionInfo = searchSession(gameSessions.Sessions, token);
       const guess = req.params.guess
+
+      res.status(200)
 
       if (guess === sessionInfo.answer) {
         res.send(true)

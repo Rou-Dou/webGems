@@ -6,10 +6,10 @@ let playerSession;
 const userName = "user1"
 // const url = "http://192.168.1.166:8080"
 const url = "http://localhost:8080"
-const getPlayer = "/getplayer"
-const getToken = "/getSessionToken"
-const getSession = "/getSessionInfo"
-const makeGuess = "/makeGuess";
+const getPlayer = "/api/getplayer"
+const getToken = "/api/getSessionToken"
+const getSession = "/api/getSessionInfo"
+const makeGuess = "/api/makeGuess";
 const submitButton = document.getElementById("submitButton");
 
 async function getSessionToken() {

@@ -13,7 +13,6 @@ export function log(arg, code) {
 }
 
 export async function getPlayer() {
-    console.log("getPlayer")
     let connection = await mysql.createConnection({
         host: "localhost",
         user: "root",
@@ -35,6 +34,8 @@ export async function getPlayer() {
         name: playerName,
         headshot: playerHeadshot
     };
+
+    console.log(playerInfo)
 
     connection.end();
 
