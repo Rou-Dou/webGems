@@ -33,6 +33,7 @@
             </div>
         </div>
     </div>
+    <!-- Hamburger Menu -->
     <div class="flex hidden" id="dropdown">
         <ul class="flex column justifyContent">
             <li>Thing1</li>
@@ -44,16 +45,24 @@
     </div>
 
     <div class="flex row fullWidth content centerItems justifyContent" id="content">
+        <!-- Start of Info panels -->
         <div class="contentContainer flex centerItems justifyContent wrapOn row">
+            <!-- Player Image -->
             <div class="rectangle flex centerItems">
                 <img class="playerPicture" src=""/>
             </div>
-            <div class="rectangle flex centerItems">
-                <div>
+            <!-- Player Info -->
+            <div class="rectangle flex column" id="playerInfoRectangle">
+                <!-- Header -->
+                <div class="flex" id="playerInfoHeaderBox">
                     <h2>Player Info</h2>
-                    <br><br>
-                    <p id="PlayerName"></p>
-                    <p>years actiev: 2010-2020</p>
+                </div>
+                <!-- List Info -->
+                <div class="flex" id="playerListBox">
+                    <ul id="playerInfoList">
+                        <li class="playerInfoPoint"><span class="playerInfoListItem" id="Team"></span></li>
+                        <li class="playerInfoPoint"><span class="playerInfoListItem" id="Pos"></span></li>
+                    </ul>
                 </div>
             </div>
         </div>
@@ -86,5 +95,6 @@
 
 </html>
 
-<script type="text/javascript" src="./script.js"></script>
+<script type="module" src="./script.mjs"></script>
+<script type="module" src="./interact.mjs"></script>
 <link rel="stylesheet" href="./style.css">
