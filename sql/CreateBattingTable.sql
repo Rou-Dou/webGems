@@ -1,0 +1,47 @@
+DROP TABLE IF EXISTS Batting;
+DROP TABLE IF EXISTS Pitching;
+
+CREATE TABLE Batting (Rk INTEGER,
+	Player CHAR(50), 
+    Age INTEGER, 
+    Team CHAR(5),
+    Lg CHAR(5),
+    WAR FLOAT NULL,
+    G SMALLINT,
+    PA SMALLINT,
+    AB SMALLINT,
+    R SMALLINT,
+    H SMALLINT,
+    TwoB SMALLINT,
+    ThreeB SMALLINT,
+    HR SMALLINT,
+    RBI SMALLINT,
+    SB SMALLINT,
+    CS TINYINT,
+    BB SMALLINT,
+    SO SMALLINT,
+    BA FLOAT4,
+    OBP FLOAT4,
+    SLG FLOAT4,
+    OPS FLOAT4,
+    OPSPlus SMALLINT,
+    rOBA FLOAT4,
+    RbatPlus SMALLINT,
+    TB SMALLINT,
+    GIDP TINYINT,
+    HBP TINYINT,
+    SH TINYINT,
+    SF TINYINT,
+    IBB TINYINT,
+    Pos varchar(50),
+    Awards varchar(255),
+    PlayerID varchar(15)
+);
+
+LOAD DATA INFILE "C:/ProgramData/MySQL/MySQL Server 8.4/Uploads/BaseballReference2025BattingData.csv"
+INTO TABLE Batting
+COLUMNS TERMINATED BY ','
+LINES TERMINATED BY '\n'
+IGNORE 1 LINES;
+
+SELECT * FROM Batting;
