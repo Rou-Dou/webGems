@@ -1,6 +1,7 @@
 Remove-Item -Path "C:\ProgramData\MySQL\MySQL Server 8.4\Uploads\*" -Recurse -Force
 cd ..\sql
 Copy-Item -Path ".\Uploads\*" -Destination "C:\ProgramData\MySQL\MySQL Server 8.4\Uploads\"
+Copy-Item -Path ".\*.sql" -Destination "C:\ProgramData\webGems\
 
 $user = "root"
 
