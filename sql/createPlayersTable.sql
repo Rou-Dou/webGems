@@ -16,5 +16,4 @@ INTO TABLE Players
 COLUMNS TERMINATED BY ','
 LINES TERMINATED BY '\n';
 
-SELECT * FROM Players
-LIMIT 100;
+SELECT "createPlayersTable Complete";

@@ -28,7 +28,7 @@ export let token = getSessionToken();
 
 token.then(async () => {
     console.log("fetching session info");
-    playerSession = await fetch(`${url}${getSession}:${token}`, {
+    playerSession = await fetch(`${url}${getSession}/${token}`, {
         method: "GET"
     })
     .then((value) => {
@@ -40,12 +40,17 @@ token.then(async () => {
 
         decodeReadableStream(value)
         .then(({done, value}) => {
+            console.log("Returned value from decodeReadableStream ---->", decodeuint8String(value));
             const sessionObj = JSON.parse(decodeuint8String(value));
             console.log("session object ----> ", sessionObj);
             document.querySelector(".playerPicture").src = sessionObj.headshot;
-            
-            document.getElementById("Team").innerText = `Team: ${sessionObj.team}`;
-            document.getElementById("Pos").innerText = `Pos: ${sessionObj.position}`;
+            document.getElementById("Pos").innerText = sessionObj.position
+            document.getElementById("Team").innerText = sessionObj.team;
+            document.getElementById("WAR").innerText = sessionObj.war
+            document.getElementById("Games").innerText = sessionObj.games;
+            document.getElementById("RBI").innerText = sessionObj.rbi;
+            document.getElementById("SB").innerText = sessionObj.stolenBases;
+            document.getElementById("BA").innerText = sessionObj.battingAvg;
 
             return playerSession = sessionObj;
         });

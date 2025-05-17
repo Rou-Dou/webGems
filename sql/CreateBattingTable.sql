@@ -44,4 +44,4 @@ COLUMNS TERMINATED BY ','
 LINES TERMINATED BY '\n'
 IGNORE 1 LINES;
 
-SELECT * FROM Batting;
+SELECT "CreateBattingTable Complete";

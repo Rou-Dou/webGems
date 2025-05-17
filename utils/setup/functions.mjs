@@ -21,7 +21,7 @@ export async function getAllPlayers() {
    })
     connection.connect();
 
-    const [results, fields] = await connection.query(`SELECT * FROM Players`);
+    const [results, fields] = await connection.query(`SELECT * FROM playerinfo;`);
 
     connection.end();
 
@@ -42,6 +42,12 @@ export async function generateNewSession() {
     newSession.headshot = randPlayer.headshot;
     newSession.team = randPlayer.team;
     newSession.position = randPlayer.position;
+    newSession.war = randPlayer.war;
+    newSession.games = randPlayer.games;
+    newSession.homeruns = randPlayer.homeruns;
+    newSession.rbi = randPlayer.rbi;
+    newSession.stolenBases = randPlayer.stolenBases;
+    newSession.battingAvg = randPlayer.battingAvg;
     
     if (newSession.sessionID != "") {
         return newSession;
@@ -72,15 +78,30 @@ export function getRandomPlayer(players) {
 
     const randIndex = Math.round(Math.random(players.length) * players.length)
 
-    const playerName = players[randIndex].PlayerName.replace("\ufeff", "").trim();
-    const playerHeadshot = players[randIndex].Headshot.replace("&comma;", ",").trim();
-    const playerPosition = players[randIndex].STD_POS.trim();
-    const playerTeam = players[randIndex].Team.trim();
+    const selectedPlayer = players[randIndex]
+
+    const playerName = selectedPlayer.Player.replace("\ufeff", "").trim();
+    const playerHeadshot = selectedPlayer.Headshot.replace("&comma;", ",").trim();
+    const playerPosition = selectedPlayer.Pos.trim();
+    const playerTeam = selectedPlayer.Team.trim();
+    const playerWar = selectedPlayer.WAR;
+    const playerGames = selectedPlayer.G;
+    const playerHomeruns = selectedPlayer.HR;
+    const playerRbi = selectedPlayer.RBI;
+    const playerStolenBases = selectedPlayer.SB;
+    const playerBattingAvg = selectedPlayer.BA;
+
     const playerInfo = {
         name: playerName,
         headshot: playerHeadshot,
         team: playerTeam,
-        position: playerPosition
+        position: playerPosition,
+        war: playerWar,
+        games: playerGames,
+        homeruns: playerHomeruns,
+        rbi: playerRbi,
+        stolenBases: playerStolenBases,
+        battingAvg: playerBattingAvg
     };
 
     console.log("the player ---->", playerInfo);

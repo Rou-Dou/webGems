@@ -282,6 +282,14 @@ button {
     font-size: 1.2em;
 }
 
+.playerInfoListItem {
+    font-weight: 300;
+}
+
+.spaceBelow {
+    margin-bottom: 10px;
+}
+
 #dropdown {
     position: fixed;
     width: 10vw;
@@ -316,4 +324,9 @@ button {
 #playerListBox {
     height: 60%;
     width: 100%;
+}
+
+.playerInfoListItem::before {
+    font-weight: 600; 
+    content: attr(id) ": "
 }

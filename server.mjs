@@ -15,7 +15,7 @@
 
   app.get("/api/getSessionToken", getSessionToken);
 
-  app.get("/api/getSessionInfo:token", getSessionInfo);
+  app.get("/api/getSessionInfo/:token", getSessionInfo);
 
   app.get("/api/makeGuess/:token/:guess", makeGuess);
 
