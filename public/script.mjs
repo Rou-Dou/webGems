@@ -10,10 +10,10 @@ const getPlayerList = "/api/getPlayerList";
 
 export let playerNames = fetch(`${url}${getPlayerList}`)
 .then((value) => {
-    console.log("this is the player names client side ---->", value)
+    // console.log("this is the player names client side ---->", value)
     return decodeReadableStream(value)
     .then((value) => {
-        console.log("this is the playerNames post decode ---->", value)
+        // console.log("this is the playerNames post decode ---->", value)
 
         return decodeuint8String(value)
     })
@@ -23,11 +23,11 @@ export let playerNames = fetch(`${url}${getPlayerList}`)
 async function getSessionToken() {
     await fetch(`${url}${getToken}`, {method: 'GET'})
     .then((response) => {
-        console.log("session token response ----> ", response);
+        // console.log("session token response ----> ", response);
         return response.text();
     })
     .then((data) => {
-        console.log("data ---->", data);
+        // console.log("data ---->", data);
         return token = data;
     });
 }
@@ -46,17 +46,16 @@ token.then(async () => {
             console.error("bad");
             return null;
         }
-    decodeReadableStream(value)
-    .then((value) => {
-            const sessionObj = JSON.parse(decodeuint8String(value));
-            console.log("session object ----> ", sessionObj);
-
+        decodeReadableStream(value)
+        .then((value) => {
+            
+            const parsedData = JSON.parse(decodeuint8String(value))
             const playerInfoList = document.querySelectorAll(".playerInfoListItem")
 
-            document.querySelector(".playerPicture").src = sessionObj.headshot;
+            document.querySelector(".playerPicture").src = parsedData.playerInfo.headshot
 
             for (let listItem of playerInfoList) {
-                listItem.innerText = sessionObj[listItem.id]
+                listItem.innerText = parsedData.playerInfo[listItem.id]
             }
 
         })

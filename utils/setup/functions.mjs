@@ -35,22 +35,11 @@ export async function getAllPlayers() {
 }
 
 export async function generateNewSession() {
-    const newSession = new Session(crypto.randomUUID());
     const randPlayer = getRandomPlayer(players);
-
-    newSession.answer = randPlayer.name;
-    newSession.headshot = randPlayer.headshot;
-    newSession.Team = randPlayer.team;
-    newSession.Pos = randPlayer.position;
-    newSession.WAR = randPlayer.war;
-    newSession.Games = randPlayer.games;
-    newSession.Homeruns = randPlayer.homeruns;
-    newSession.RBI = randPlayer.rbi;
-    newSession.SB = randPlayer.stolenBases;
-    newSession.BA= randPlayer.battingAvg;
+    const newSession = new Session(crypto.randomUUID(), randPlayer);
     
-    if (newSession.sessionID != "") {
-        return newSession;
+    if (newSession.sessionInfo.sessionID != "") {
+        return newSession
     }
     else {
         console.error("Weird error!");
@@ -64,21 +53,21 @@ export function searchSession(sessions, token) {
     for (let session of sessions) {
         console.log("Session ----> ", session);
         console.log("token ----> ", token);
-        if (token === session.sessionID && session.active) {
+        if (token === session.sessionInfo.sessionID && session.sessionInfo.active) {
             console.log("token matched and active!");
             return session;
         }
     };
     console.error("oh no");
-    return new Session("");
+    return new Session(null, null);
 }
 
 // Retrieves a random player from a list of players. Used as the answer for a given session
 export function getRandomPlayer(players) {
 
-    const randIndex = Math.round(Math.random(players.length) * players.length)
+    const randIndex = Math.round(Math.random(players.length) * players.length);
 
-    const selectedPlayer = players[randIndex]
+    const selectedPlayer = players[randIndex];
 
     const playerName = selectedPlayer.Player.replace("\ufeff", "").trim();
     const playerHeadshot = selectedPlayer.Headshot.replace("&comma;", ",").trim();
@@ -89,20 +78,20 @@ export function getRandomPlayer(players) {
     const playerHomeruns = selectedPlayer.HR;
     const playerRbi = selectedPlayer.RBI;
     const playerStolenBases = selectedPlayer.SB;
-    const playerBattingAvg = selectedPlayer.BA * 1000
+    const playerBattingAvg = selectedPlayer.BA * 1000;
 
-    const playerInfo = {
-        name: playerName,
-        headshot: playerHeadshot,
-        team: playerTeam,
-        position: playerPosition,
-        war: playerWar,
-        games: playerGames,
-        homeruns: playerHomeruns,
-        rbi: playerRbi,
-        stolenBases: playerStolenBases,
-        battingAvg: playerBattingAvg
-    };
+    const playerInfo = new Player(
+        playerName, 
+        playerHeadshot, 
+        playerTeam, 
+        playerPosition, 
+        playerWar, 
+        playerGames, 
+        playerHomeruns, 
+        playerRbi, 
+        playerStolenBases, 
+        playerBattingAvg
+    );
 
     console.log("the player ---->", playerInfo);
 

@@ -22,14 +22,14 @@ submitButton.addEventListener('click', (e) =>{
     console.log(userText.value);
     userText.value = "";
     const response = fetch(`${url}${makeGuess}/${token}/${guess}`);
-    console.log("response from makeGuess ---->", response);
-    response.then((value)=> {
+    response
+    .then((value)=> {
         decodeReadableStream(value)
         .then((value) => {
             const newBox = document.createElement("div");
             newBox.style.animation = "slide-up 0.5s"
 
-            console.log("returned from make guess --->", decodeuint8String(value))
+            // console.log("returned from make guess --->", decodeuint8String(value))
 
             const responseBool = decodeuint8String(value) == "true";
 
@@ -55,7 +55,7 @@ submitButton.addEventListener('click', (e) =>{
 });
 
 document.getElementById("guess").addEventListener("input", (e) => {
-    console.log(e.target.value)
+    // console.log(e.target.value)
     const relevantPlayers = getRelevantPlayerNames(e.target.value)
     fillDropdownList(relevantPlayers);
 })

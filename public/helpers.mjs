@@ -23,7 +23,7 @@ export function decodeReadableStream(stream) {
 
         result.push(value)
 
-        console.log("unfinished reader ---->", value)
+        // console.log("unfinished reader ---->", value)
 
         return reader.read().then(readStream);
     })
@@ -85,11 +85,9 @@ export function getRelevantPlayerNames(text) {
     let playerNamesList = []
     const lowerCaseText = text.toLowerCase()
 
-    console.log("playerNames before .then ---->", playerNames);
-
     return playerNames
     .then((value) => {
-        console.log("this is the decoded value ---->", JSON.parse(value))
+        // console.log("this is the decoded value ---->", JSON.parse(value));
         const parsedList = JSON.parse(value)
         for (let p of parsedList) {
             const pLowerCase = p.toLowerCase().replaceAll('"', "").replaceAll("[", "").replaceAll("]", "")
@@ -97,7 +95,7 @@ export function getRelevantPlayerNames(text) {
                 playerNamesList.push(p.replaceAll('"',"").replaceAll("[", "").replaceAll("]", ""))
             }
         }
-        console.log("list of relevant player names ---->", playerNamesList);
+        // console.log("list of relevant player names ---->", playerNamesList);
         return playerNamesList;
     })
 }

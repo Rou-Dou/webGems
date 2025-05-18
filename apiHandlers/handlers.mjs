@@ -5,7 +5,7 @@ import { gameSessions } from "../server.mjs";
 
 // returns a random player object to be used for the session answer.
 export function getPlayerFromDb (req, res) {
-  getRandomPlayer(players);
+  let randPlayer = getRandomPlayer(players);
 
   console.log("rand Player ---->", randPlayer);
   
@@ -15,7 +15,7 @@ export function getPlayerFromDb (req, res) {
   res.set("Access-Control-Allow-Origin", "*");
   res.set("Access-Control-Allow-Methods", "GET");
   res.set("Content-Type", "text/plain");
-  res.send(randPlayer);
+  res.json(randPlayer);
 }
 // Generates a new session for the user and returns them the ID for their session.
 export function getSessionToken (req, res) {
@@ -23,13 +23,13 @@ export function getSessionToken (req, res) {
   generateNewSession()
   .then((data) => {
     gameSessions.Sessions.push(data);
-    console.log("Session ID: ", data.sessionID);
+    console.log("Session ID: ", data.sessionInfo.sessionID);
     
     res.status(200);
     res.set("Access-Control-Allow-Origin", "*");
     res.set("Access-Control-Allow-Methods", "GET");
     res.set("Content-Type", "text/plain");
-    res.send(data.sessionID);
+    res.send(data.sessionInfo.sessionID);
   });
 }
 
@@ -38,15 +38,15 @@ can begin providing guesses.*/
 export function getSessionInfo (req, res) {
   log("Called getSessionInfo", 200)
   const token = req.params.token.trim();
-  const sessionInfo = searchSession(gameSessions.Sessions, token);
+  const sessionObj = searchSession(gameSessions.Sessions, token);
 
-  console.log("the session info ----> ", sessionInfo);
+  console.log("the session info ----> ", sessionObj);
   
   res.status(200);
   res.set("Access-Control-Allow-Origin", "*");
   res.set("Access-Control-Allow-Methods", "GET");
   res.set("Content-Type", "application/json");
-  res.send(sessionInfo);
+  res.json(sessionObj.sessionInfo);
 }
 
 export function makeGuess (req, res) {
@@ -55,11 +55,11 @@ export function makeGuess (req, res) {
   console.log("req guess ---->", req.params.guess);
   const token = req.params.token;
   const guess = req.params.guess;
-  const sessionInfo = searchSession(gameSessions.Sessions, token);
+  const sessionObj = searchSession(gameSessions.Sessions, token);
 
   res.status(200);
 
-  if (guess === sessionInfo.answer) {
+  if (guess === sessionObj.answer) {
     console.log("sending true")
     res.send(true);
   }

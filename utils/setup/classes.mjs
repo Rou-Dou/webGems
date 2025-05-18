@@ -1,28 +1,43 @@
 import moment from "moment";
 
 export class Player {
-    constructor(session, name, guess = "") {
-        this.sessionID = session;
-        this.name = "";
-        this.guess = "";
-        this.online = true;
+    constructor(name, headshot, team, position, war, games, homeruns, rbi, stolenBases, battingAvg) {
+        this.name = name;
+        this.headshot = headshot;
+        this.Team = team;
+        this.Pos = position;
+        this.WAR = war;
+        this.Games = games;
+        this.Homeruns = homeruns;
+        this.RBI = rbi;
+        this.SB = stolenBases;
+        this.BA= battingAvg;
     }
 }
 
 export class Session {
-    constructor(sessionID) {
-        this.sessionID = sessionID;
-        this.sessionStart = moment().toISOString()
-        this.sessionEnd = ""
-        this.answer = "";
-        this.headshot = "";
-        this.active = true;
+    constructor(sessionID, player) {
+        this.answer = player.name
+        this.sessionInfo = {
+            sessionID: sessionID,
+            playerInfo: player,
+            sessionStart: moment().toISOString(),
+            sessionEnd: "",
+            active: true
+        }
+        this.clearName();
     }
 
     endSession() {
         this.sessionEnd = moment().toISOString();
         this.active = false;
     }
+
+    clearName() {
+        delete this.sessionInfo.playerInfo.name
+    }
+
+    
 }
 
 export class Log {
