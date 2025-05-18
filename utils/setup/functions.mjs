@@ -40,14 +40,14 @@ export async function generateNewSession() {
 
     newSession.answer = randPlayer.name;
     newSession.headshot = randPlayer.headshot;
-    newSession.team = randPlayer.team;
-    newSession.position = randPlayer.position;
-    newSession.war = randPlayer.war;
-    newSession.games = randPlayer.games;
-    newSession.homeruns = randPlayer.homeruns;
-    newSession.rbi = randPlayer.rbi;
-    newSession.stolenBases = randPlayer.stolenBases;
-    newSession.battingAvg = randPlayer.battingAvg;
+    newSession.Team = randPlayer.team;
+    newSession.Pos = randPlayer.position;
+    newSession.WAR = randPlayer.war;
+    newSession.Games = randPlayer.games;
+    newSession.Homeruns = randPlayer.homeruns;
+    newSession.RBI = randPlayer.rbi;
+    newSession.SB = randPlayer.stolenBases;
+    newSession.BA= randPlayer.battingAvg;
     
     if (newSession.sessionID != "") {
         return newSession;
@@ -82,14 +82,14 @@ export function getRandomPlayer(players) {
 
     const playerName = selectedPlayer.Player.replace("\ufeff", "").trim();
     const playerHeadshot = selectedPlayer.Headshot.replace("&comma;", ",").trim();
-    const playerPosition = selectedPlayer.Pos.trim();
+    const playerPosition = selectedPlayer.Pos;
     const playerTeam = selectedPlayer.Team.trim();
     const playerWar = selectedPlayer.WAR;
     const playerGames = selectedPlayer.G;
     const playerHomeruns = selectedPlayer.HR;
     const playerRbi = selectedPlayer.RBI;
     const playerStolenBases = selectedPlayer.SB;
-    const playerBattingAvg = selectedPlayer.BA;
+    const playerBattingAvg = selectedPlayer.BA * 1000
 
     const playerInfo = {
         name: playerName,

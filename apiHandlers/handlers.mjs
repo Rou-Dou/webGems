@@ -1,5 +1,5 @@
-import { getRandomPlayer, generateNewSession, searchSession } from "../utils/setup/functions.mjs";
-import { players } from "../resources/resources.mjs";
+import { getRandomPlayer, generateNewSession, searchSession, log } from "../utils/setup/functions.mjs";
+import { players, playerNames} from "../resources/resources.mjs";
 import { gameSessions } from "../server.mjs";
 
 
@@ -19,14 +19,11 @@ export function getPlayerFromDb (req, res) {
 }
 // Generates a new session for the user and returns them the ID for their session.
 export function getSessionToken (req, res) {
+  log("Called getSessionToken", 200)
   generateNewSession()
   .then((data) => {
     gameSessions.Sessions.push(data);
-
-    console.log("New Session: ", data);
-    console.log(gameSessions);
     console.log("Session ID: ", data.sessionID);
-    console.log("headshot ---->", data.headshot);
     
     res.status(200);
     res.set("Access-Control-Allow-Origin", "*");
@@ -37,34 +34,42 @@ export function getSessionToken (req, res) {
 }
 
 /* Retrieves a session object based on a provide session ID. Required to be executed before the user
-can begin providing guesses.
-*/
+can begin providing guesses.*/
 export function getSessionInfo (req, res) {
+  log("Called getSessionInfo", 200)
   const token = req.params.token.trim();
   const sessionInfo = searchSession(gameSessions.Sessions, token);
 
   console.log("the session info ----> ", sessionInfo);
-  console.log("This is the session info value ----> ", sessionInfo);
   
   res.status(200);
   res.set("Access-Control-Allow-Origin", "*");
   res.set("Access-Control-Allow-Methods", "GET");
   res.set("Content-Type", "application/json");
   res.send(sessionInfo);
-  }
+}
 
 export function makeGuess (req, res) {
-  console.log("This is a guess");
+  log("called makeGuess", 200)
   console.log("req token ---->", req.params.token);
   console.log("req guess ---->", req.params.guess);
   const token = req.params.token;
-  const sessionInfo = searchSession(gameSessions.Sessions, token);
   const guess = req.params.guess;
+  const sessionInfo = searchSession(gameSessions.Sessions, token);
 
   res.status(200);
 
   if (guess === sessionInfo.answer) {
+    console.log("sending true")
     res.send(true);
   }
-  else res.send(false);
+  else {
+    console.log("sending false")
+    res.send(false);
+  }
+}
+
+export function getPlayerList (req, res) {
+  res.status(200)
+  res.send(playerNames)
 }

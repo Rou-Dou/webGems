@@ -62,13 +62,12 @@
                     <ul id="playerInfoList">
                         <li class="playerInfoPoint"><span class="playerInfoListItem" id="Team"></span></li>
                         <li class="playerInfoPoint"><span class="playerInfoListItem" id="Pos"></span></li>
-                        <li class="playerInfoPoint"><span class="playerInfoListItem" id="WAR"></span></li>
                         <li class="playerInfoPoint"><span class="playerInfoListItem" id="Games"></span></li>
+                        <li class="playerInfoPoint"><span class="playerInfoListItem" id="WAR"></span></li>
+                        <li class="playerInfoPoint"><span class="playerInfoListItem" id="Homeruns"></span></li>
                         <li class="playerInfoPoint"><span class="playerInfoListItem" id="RBI"></span></li>
                         <li class="playerInfoPoint"><span class="playerInfoListItem" id="SB"></span></li>
                         <li class="playerInfoPoint"><span class="playerInfoListItem" id="BA"></span></li>
-
-
                     </ul>
                 </div>
             </div>
@@ -82,9 +81,17 @@
             <input class="fullWidth" type="text" placeholder="Guess" id="guess"/>
         </div>
     </div>
+    <div class="flex column centerItems justifyContent hidden" id="playerNameDropdown">
+        <ul id="playerNameList">
+        </ul>
+    </div>
     <button type="button" id="submitButton">
         Submit!
     </button>
+    <div class="flex row centerItems justifyContent" id="strikesContainer">
+        <div id="strikes"> 
+        </div>
+    </div>
 
 
         <!-- <div class="contentContainer flex centerItems justifyContent wrapOn">

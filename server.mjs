@@ -1,5 +1,5 @@
     // server.js
-  import { getPlayerFromDb, getSessionToken, getSessionInfo, makeGuess } from "./apiHandlers/handlers.mjs"
+  import { getPlayerFromDb, getSessionToken, getSessionInfo, makeGuess, getPlayerList} from "./apiHandlers/handlers.mjs"
   import express from "express";
   import cors from "cors";
   const app = express();
@@ -10,6 +10,8 @@
 
   app.use(cors());
   app.use(express.static("public"));
+
+  app.get("/api/getPlayerList", getPlayerList);
 
   app.get("/api/getplayer", getPlayerFromDb);
 
