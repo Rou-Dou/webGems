@@ -1,8 +1,8 @@
 import { decodeReadableStream, decodeuint8String } from "./helpers.mjs";
 
 const userName = "user1";
-export const url = "http://192.168.1.166:8080";
-// export const url = "http://localhost:8080";
+// export const url = "http://192.168.1.166:8080";
+export const url = "http://localhost:8080";
 export const makeGuess = "/api/makeGuess";
 const getToken = "/api/getSessionToken";
 const getSession = "/api/getSessionInfo";

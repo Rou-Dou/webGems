@@ -31,7 +31,6 @@ li {
 
 ul {
     list-style-type: none;
-    align-items: flex-start;
 }
 
 a {
@@ -67,7 +66,6 @@ input[type="text"]::before{
 }
 
 button {
-    margin-left: 48%;
     margin-bottom: 10px;
 }
 
@@ -247,7 +245,6 @@ button {
 .topBar {
     height: 70px;
     width: 100vw;
-    justify-content: space-between;
     padding: 1px;
     background-color: rgb(255, 255, 255);
 }
@@ -255,7 +252,7 @@ button {
 .iconBar {
     height: 50%;
     width: 100%;
-    justify-content: space-between;
+    justify-content: end;
 }
 
 .iconBar img {
@@ -264,13 +261,13 @@ button {
 }
 
 .options {
-    width: 50%;
-    justify-content: space-evenly;
+    width: 68%;
+    justify-content: center;
 }
 
 .moreOptions {
-    width: 25%;
-    justify-content: space-evenly;
+    width: 16%;
+    justify-content: center;
 }
 
 .hidden {
@@ -278,7 +275,6 @@ button {
 }
 
 .bigTitle {
-    margin-left: 1vw;
     font-size: 2rem;
 }
 
@@ -356,30 +352,22 @@ button {
 }
 
 .playerNameListItem {
-  height: 8%;
   width: 100%;
   padding: 1%;
   margin: 1px;
   border-radius: 0.3em;
-  align-self: center;
   color: white;
   background-color: #242424;
 }
 
 #playerNameList {
     width: 50%;
-    flex-direction: column;
     border: #434343 1px solid;
     margin-top: 0.3em;
     border-radius: 0.3em;
-}
-
-#playerNameDropdown {
-    width: 100%;
-    position: sticky;
-    align-items: center;
-    overflow: scroll;
-    height: 100%;
+    overflow-y: scroll;
+    max-height: 20vh;
+    overflow-x: hidden;
 }
 
 #strikesContainer {
@@ -397,5 +385,3 @@ button {
     animation: push-down ease-in-out 0.7s; 
     overflow: hidden;
 }
-
-

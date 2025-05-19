@@ -2,18 +2,6 @@ import { url, makeGuess, token} from "./script.mjs"; // vars
 import { decodeReadableStream, decodeuint8String, addAnimation, getRelevantPlayerNames, fillDropdownList} from "./helpers.mjs"; //helpers
 
 const submitButton = document.getElementById("submitButton");
-let hamburgerMenu = document.getElementById("hamburger");
-let  hamburgerDropdown = document.getElementById("dropdown");
-
-hamburgerMenu.addEventListener("click", () => {
-    if (hamburgerDropdown.classList.contains("hidden")) {
-        hamburgerDropdown.classList.remove("hidden");
-    }
-
-    else {
-        hamburgerDropdown.classList.add("hidden");
-    }
-});
 
 submitButton.addEventListener('click', (e) =>{
     console.log(token)
