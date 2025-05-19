@@ -50,13 +50,18 @@ export async function generateNewSession() {
 
 export function searchSession(sessions, token) {
     console.log("searchSession");
+    let i = 0;
     for (let session of sessions) {
         console.log("Session ----> ", session);
         console.log("token ----> ", token);
-        if (token === session.sessionInfo.sessionID && session.sessionInfo.active) {
+        if (token === session.sessionInfo.sessionID && session.sessionStatus.active) {
             console.log("token matched and active!");
-            return session;
+            return {
+                sessionObj: session,
+                index: i
+            };
         }
+        i += 1
     };
     console.error("oh no");
     return new Session(null, null);

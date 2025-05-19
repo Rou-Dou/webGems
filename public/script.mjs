@@ -9,14 +9,13 @@ const getSession = "/api/getSessionInfo";
 const getPlayerList = "/api/getPlayerList";
 
 export let playerNames = fetch(`${url}${getPlayerList}`)
-.then((value) => {
-    // console.log("this is the player names client side ---->", value)
-    return decodeReadableStream(value)
+    .then((value) => {
+        // console.log("this is the player names client side ---->", value)
+        return decodeReadableStream(value)
     .then((value) => {
         // console.log("this is the playerNames post decode ---->", value)
-
         return decodeuint8String(value)
-    })
+    });
 })
 
 
@@ -46,18 +45,18 @@ token.then(async () => {
             console.error("bad");
             return null;
         }
-        decodeReadableStream(value)
-        .then((value) => {
-            
-            const parsedData = JSON.parse(decodeuint8String(value))
-            const playerInfoList = document.querySelectorAll(".playerInfoListItem")
+    return decodeReadableStream(value)    
+    })
+    .then((value) => {
+        
+        const parsedData = JSON.parse(decodeuint8String(value))
+        const playerInfoList = document.querySelectorAll(".playerInfoListItem")
 
-            document.querySelector(".playerPicture").src = parsedData.playerInfo.headshot
+        document.querySelector(".playerPicture").src = parsedData.playerInfo.headshot
 
-            for (let listItem of playerInfoList) {
-                listItem.innerText = parsedData.playerInfo[listItem.id]
-            }
+        for (let listItem of playerInfoList) {
+            listItem.innerText = parsedData.playerInfo[listItem.id]
+        }
 
-        })
     })
 });

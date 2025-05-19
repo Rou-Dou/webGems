@@ -24,38 +24,37 @@ submitButton.addEventListener('click', (e) =>{
     const response = fetch(`${url}${makeGuess}/${token}/${guess}`);
     response
     .then((value)=> {
-        decodeReadableStream(value)
-        .then((value) => {
-            const newBox = document.createElement("div");
-            newBox.style.animation = "slide-up 0.5s"
+        return decodeReadableStream(value)
+    })
+    .then((value) => {
+        const newBox = document.createElement("div");
+        newBox.style.animation = "slide-up 0.5s"
 
-            // console.log("returned from make guess --->", decodeuint8String(value))
+        // console.log("returned from make guess --->", decodeuint8String(value))
 
-            const responseBool = decodeuint8String(value) == "true";
+        const responseBool = decodeuint8String(value) == "true";
 
-            console.log("The response boolean ---->", responseBool)
+        console.log("The response boolean ---->", responseBool)
 
-            document.getElementById("strikes").appendChild(newBox)
+        document.getElementById("strikes").appendChild(newBox)
 
-            if (document.getElementById("strikes").style.display == "") {
-                document.getElementById("strikes").style.display = "flex";
-            }
+        if (document.getElementById("strikes").style.display == "") {
+            document.getElementById("strikes").style.display = "flex";
+        }
 
-            addAnimation(newBox);
+        addAnimation(newBox);
 
-            if (responseBool) {
+        if (responseBool) {
 
-                newBox.classList.add("greenbox")
-            }
-            else {
-                newBox.classList.add("redbox")
-            }
-        });
+            newBox.classList.add("greenbox")
+        }
+        else {
+            newBox.classList.add("redbox")
+        }
     });
 });
 
 document.getElementById("guess").addEventListener("input", (e) => {
-    // console.log(e.target.value)
     const relevantPlayers = getRelevantPlayerNames(e.target.value)
     fillDropdownList(relevantPlayers);
 })

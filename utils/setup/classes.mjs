@@ -23,6 +23,11 @@ export class Session {
             playerInfo: player,
             sessionStart: moment().toISOString(),
             sessionEnd: "",
+        }
+        this.sessionStatus = {
+            curPlayer: 0,
+            playerGuesses: 0,
+            correctGuesses: [null, null, null],
             active: true
         }
         this.clearName();
@@ -36,7 +41,6 @@ export class Session {
     clearName() {
         delete this.sessionInfo.playerInfo.name
     }
-
     
 }
 

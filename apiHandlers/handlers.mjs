@@ -13,7 +13,7 @@ export function getPlayerFromDb (req, res) {
   else res.status(200);
 
   res.set("Access-Control-Allow-Origin", "*");
-  res.set("Access-Control-Allow-Methods", "GET");
+  res.set("Access-Control-Allow-Methods", "GET"); 
   res.set("Content-Type", "text/plain");
   res.json(randPlayer);
 }
@@ -38,15 +38,15 @@ can begin providing guesses.*/
 export function getSessionInfo (req, res) {
   log("Called getSessionInfo", 200)
   const token = req.params.token.trim();
-  const sessionObj = searchSession(gameSessions.Sessions, token);
+  const response = searchSession(gameSessions.Sessions, token);
 
-  console.log("the session info ----> ", sessionObj);
+  console.log("the session info ----> ", response.sessionObj);
   
   res.status(200);
   res.set("Access-Control-Allow-Origin", "*");
   res.set("Access-Control-Allow-Methods", "GET");
   res.set("Content-Type", "application/json");
-  res.json(sessionObj.sessionInfo);
+  res.json(response.sessionObj.sessionInfo);
 }
 
 export function makeGuess (req, res) {
@@ -55,18 +55,46 @@ export function makeGuess (req, res) {
   console.log("req guess ---->", req.params.guess);
   const token = req.params.token;
   const guess = req.params.guess;
-  const sessionObj = searchSession(gameSessions.Sessions, token);
+  const response = searchSession(gameSessions.Sessions, token);
+
+  console.log("Make Guess sessionObj object before processing ---->", response.sessionObj)
 
   res.status(200);
 
-  if (guess === sessionObj.answer) {
-    console.log("sending true")
-    res.send(true);
+  const currentPlayerIndex = response.sessionObj.sessionStatus.curPlayer;
+  const LastPlayer = currentPlayerIndex > 2;
+  let returnStatus = null;
+
+  response.sessionObj.sessionStatus.playerGuesses += 1
+  const currentGuesses = response.sessionObj.sessionStatus.playerGuesses;
+
+  if (guess === response.sessionObj.answer) {
+    console.log("Hit!")
+    returnStatus = true;
+  }
+  else if (currentGuesses == 3) {
+    console.log("Struck out!");
+    returnStatus = false
   }
   else {
-    console.log("sending false")
-    res.send(false);
+    console.log("Swing and a miss!");
+    returnStatus = false;
   }
+
+  if (!LastPlayer && returnStatus == true || currentGuesses == 3) {
+    response.sessionObj.sessionStatus.curPlayer += 1
+    response.sessionObj.sessionStatus.playerGuesses = 0;
+    response.sessionObj.sessionStatus.correctGuesses[currentPlayerIndex] = returnStatus;
+  }
+
+  if (LastPlayer && response.sessionObjsessionStatus.correctGuesses[currentPlayerIndex] != null) {
+    console.log("last player")
+    response.sessionObj.sessionStatus.active = false;
+  }
+
+  console.log("after modification ---->", response.sessionObj)
+
+  res.send(returnStatus);
 }
 
 export function getPlayerList (req, res) {
