@@ -62,39 +62,18 @@ export function makeGuess (req, res) {
   res.status(200);
 
   const currentPlayerIndex = response.sessionObj.sessionStatus.curPlayer;
-  const LastPlayer = currentPlayerIndex > 2;
-  let returnStatus = null;
+  let returnStatus = response.sessionObj.answers[currentPlayerIndex] == guess
 
-  response.sessionObj.sessionStatus.playerGuesses += 1
-  const currentGuesses = response.sessionObj.sessionStatus.playerGuesses;
-
-  if (guess === response.sessionObj.answer) {
-    console.log("Hit!")
-    returnStatus = true;
-  }
-  else if (currentGuesses == 3) {
-    console.log("Struck out!");
-    returnStatus = false
-  }
-  else {
-    console.log("Swing and a miss!");
-    returnStatus = false;
-  }
-
-  if (!LastPlayer && returnStatus == true || currentGuesses == 3) {
-    response.sessionObj.sessionStatus.curPlayer += 1
-    response.sessionObj.sessionStatus.playerGuesses = 0;
-    response.sessionObj.sessionStatus.correctGuesses[currentPlayerIndex] = returnStatus;
-  }
-
-  if (LastPlayer && response.sessionObjsessionStatus.correctGuesses[currentPlayerIndex] != null) {
-    console.log("last player")
-    response.sessionObj.sessionStatus.active = false;
-  }
+  response.sessionObj.evalPlay(returnStatus)
 
   console.log("after modification ---->", response.sessionObj)
 
-  res.send(returnStatus);
+  const resJson = {
+    status: response.sessionObj.sessionStatus,
+    guessResult: returnStatus
+  }
+
+  res.json(resJson);
 }
 
 export function getPlayerList (req, res) {

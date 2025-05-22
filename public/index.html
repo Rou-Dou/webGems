@@ -22,7 +22,6 @@
             </div>
         </div>
     </div>
-    <!-- Hamburger Menu -->
     <div class="flex hidden" id="dropdown">
         <ul class="flex column justifyContent">
             <li>Thing1</li>
@@ -49,14 +48,14 @@
                 <!-- List Info -->
                 <div class="flex" id="playerListBox">
                     <ul id="playerInfoList">
-                        <li class="playerInfoPoint"><span class="playerInfoListItem" id="Team"></span></li>
-                        <li class="playerInfoPoint"><span class="playerInfoListItem" id="Pos"></span></li>
-                        <li class="playerInfoPoint"><span class="playerInfoListItem" id="Games"></span></li>
-                        <li class="playerInfoPoint"><span class="playerInfoListItem" id="WAR"></span></li>
-                        <li class="playerInfoPoint"><span class="playerInfoListItem" id="Homeruns"></span></li>
-                        <li class="playerInfoPoint"><span class="playerInfoListItem" id="RBI"></span></li>
-                        <li class="playerInfoPoint"><span class="playerInfoListItem" id="SB"></span></li>
-                        <li class="playerInfoPoint"><span class="playerInfoListItem" id="BA"></span></li>
+                        <li class="playerInfoListItem"><span class="playerInfoListItemContent" id="Team"></span></li>
+                        <li class="playerInfoListItem"><span class="playerInfoListItemContent" id="Pos"></span></li>
+                        <li class="playerInfoListItem"><span class="playerInfoListItemContent" id="Games"></span></li>
+                        <li class="playerInfoListItem"><span class="playerInfoListItemContent" id="WAR"></span></li>
+                        <li class="playerInfoListItem"><span class="playerInfoListItemContent" id="Homeruns"></span></li>
+                        <li class="playerInfoListItem"><span class="playerInfoListItemContent" id="RBI"></span></li>
+                        <li class="playerInfoListItem"><span class="playerInfoListItemContent" id="SB"></span></li>
+                        <li class="playerInfoListItem"><span class="playerInfoListItemContent" id="BA"></span></li>
                     </ul>
                 </div>
             </div>
@@ -64,15 +63,15 @@
     </div>
     <div class="smallGap">
     </div>
-    <div class="flex column subContainer centerItems justifyContent">
+    <div id="guessContainer" class="flex column subContainer centerItems justifyContent">
         <h2>Guess</h2>
         <div class="textInput halfWidthPercent flex">
             <input class="fullWidth" type="text" placeholder="Guess" id="guess"/>
         </div>
-    </div>
-    <div class="flex column centerItems justifyContent hidden" id="playerNameDropdown">
-        <ul id="playerNameList">
-        </ul>
+        <div class="flex column centerItems justifyContent hidden halfWidthPercent" id="playerNameDropdown">
+            <ul id="playerNameList">
+            </ul>
+        </div>
     </div>
     
     <div class="subContainer centerItems flex column justifyContent">

@@ -77,14 +77,6 @@ button {
     border: 1px solid red;
 }
 
-.playerInfoPoint {
-    background-color: none;
-    cursor: default; 
-    margin: 0;
-    padding: 1%;
-    width: 100%;
-}
-
 .impact {
     font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
 }
@@ -235,7 +227,7 @@ button {
 }
 
 .justifyContent{
-    justify-content: space-around;
+    justify-content: space-evenly;
 }
 
 .wrapOn {
@@ -282,10 +274,6 @@ button {
     font-size: 1.2em;
 }
 
-.playerInfoListItem {
-    font-weight: 300;
-}
-
 .spaceBelow {
     margin-bottom: 10px;
 }
@@ -326,7 +314,19 @@ button {
     width: 100%;
 }
 
-.playerInfoListItem::before {
+.playerInfoListItem {
+    background-color: none;
+    cursor: default; 
+    margin: 0;
+    padding: 1%;
+    width: 100%;
+}
+
+.playerInfoListItemContent {
+    font-weight: 300;
+}
+
+.playerInfoListItemContent::before {
     font-weight: 600; 
     content: attr(id) ": "
 }
@@ -361,7 +361,7 @@ button {
 }
 
 #playerNameList {
-    width: 50%;
+    width: 100%;
     border: #434343 1px solid;
     margin-top: 0.3em;
     border-radius: 0.3em;
@@ -385,3 +385,13 @@ button {
     animation: push-down ease-in-out 0.7s; 
     overflow: hidden;
 }
+
+#submitButton{
+    margin: auto;
+}
+
+#guessContainer {
+    margin:auto;
+    width: 50%;
+}
+

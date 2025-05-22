@@ -35,7 +35,7 @@ export function decodeuint8String(string) {
 
 export function addAnimation(element) {
 
-    if (!element.previousSibling.classList) return;
+    if (!element.previousSibling) return;
 
     if (element.previousSibling.classList.contains("redbox") || element.previousSibling.classList.contains("greenbox")) {
         element.previousSibling.style.animation = "slide-left 0.5s";
@@ -48,38 +48,42 @@ function fillAnswerWithListValue(text) {
 }
 
 export function fillDropdownList(list) {
+    let playerList = document.getElementById("playerNameList");
+
+    console.log("the list --->", list)
 
     if (list.length == 0) {
+        console.log("list length = 0");
         document.getElementById("playerNameDropdown").classList.add("hidden");
+        clearChildren(playerList);
         return;
     }
 
-    document.getElementById("playerNameList").innerHTML = ""
+    clearChildren(playerList);
 
-    list
-    .then((value) => {
+    document.getElementById("playerNameDropdown").classList.remove("hidden");
+    const playerNameList = document.getElementById("playerNameList")
 
-        document.getElementById("playerNameDropdown").classList.remove("hidden");
-
-        for (let name of value) {
-            let newListItem = document.createElement("li")
-            newListItem.classList.add("playerNameListItem")
-            document.getElementById("playerNameList").appendChild(newListItem);
-            newListItem.innerText = name
-            newListItem.addEventListener("click", (e) => {
-                fillAnswerWithListValue(e.target.innerText);
-                document.getElementById("playerNameDropdown").classList.add("hidden")
-                document.getElementById("playerNameList").innerHTML = "";
-            })
-        }
-    })
+    for (let name of list) {
+        let newListItem = document.createElement("li")
+        newListItem.classList.add("playerNameListItem")
+        newListItem.innerText = name
+        playerNameList.appendChild(newListItem);
+        newListItem.addEventListener("click", (e) => {
+            fillAnswerWithListValue(e.target.innerText);
+            document.getElementById("playerNameDropdown").classList.add("hidden")
+            clearChildren(playerList);
+        })
+    }
 }
 
 export function getRelevantPlayerNames(text) {
     console.log("this is the input text ---->", text);
 
     if (text == "") {
-        return []
+        return new Promise((resolve, reject) => {
+            resolve([]);
+        })
     }
     
     let playerNamesList = []
@@ -87,15 +91,37 @@ export function getRelevantPlayerNames(text) {
 
     return playerNames
     .then((value) => {
-        // console.log("this is the decoded value ---->", JSON.parse(value));
         const parsedList = JSON.parse(value)
         for (let p of parsedList) {
-            const pLowerCase = p.toLowerCase().replaceAll('"', "").replaceAll("[", "").replaceAll("]", "")
+            const pLowerCase = p.toLowerCase()
             if (pLowerCase.startsWith(lowerCaseText)) {
-                playerNamesList.push(p.replaceAll('"',"").replaceAll("[", "").replaceAll("]", ""))
+                playerNamesList.push(p)
             }
         }
-        // console.log("list of relevant player names ---->", playerNamesList);
         return playerNamesList;
     })
+}
+
+export function clearChildren (parent) {
+    if (!parent.hasChildNodes()) {
+        return;
+    }
+
+    while (parent.firstChild) {
+        parent.removeChild(parent.lastChild);
+    }
+
+    return;
+}
+
+export function loadPlayer(session, playerIndex) {
+    const playerInfoList = document.querySelectorAll(".playerInfoListItemContent")
+
+    document.querySelector(".playerPicture").src = session.playersInfo[playerIndex].headshot
+
+    for (let listItem of playerInfoList) {
+        listItem.innerText = session.playersInfo[playerIndex][listItem.id]
+    }
+
+    return;
 }

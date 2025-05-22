@@ -35,9 +35,9 @@ export async function getAllPlayers() {
 }
 
 export async function generateNewSession() {
-    const randPlayer = getRandomPlayer(players);
-    const newSession = new Session(crypto.randomUUID(), randPlayer);
-    
+    const randPlayers = getRandomPlayer(players);
+    const newSession = new Session(crypto.randomUUID(), randPlayers);
+        
     if (newSession.sessionInfo.sessionID != "") {
         return newSession
     }
@@ -45,6 +45,7 @@ export async function generateNewSession() {
         console.error("Weird error!");
         return new Session("");
     }
+
     
 };
 
@@ -70,35 +71,41 @@ export function searchSession(sessions, token) {
 // Retrieves a random player from a list of players. Used as the answer for a given session
 export function getRandomPlayer(players) {
 
-    const randIndex = Math.round(Math.random(players.length) * players.length);
+    let playerList = []
 
-    const selectedPlayer = players[randIndex];
+    while (playerList.length < 3) {
 
-    const playerName = selectedPlayer.Player.replace("\ufeff", "").trim();
-    const playerHeadshot = selectedPlayer.Headshot.replace("&comma;", ",").trim();
-    const playerPosition = selectedPlayer.Pos;
-    const playerTeam = selectedPlayer.Team.trim();
-    const playerWar = selectedPlayer.WAR;
-    const playerGames = selectedPlayer.G;
-    const playerHomeruns = selectedPlayer.HR;
-    const playerRbi = selectedPlayer.RBI;
-    const playerStolenBases = selectedPlayer.SB;
-    const playerBattingAvg = selectedPlayer.BA * 1000;
+        const randIndex = Math.round(Math.random(players.length) * players.length);
 
-    const playerInfo = new Player(
-        playerName, 
-        playerHeadshot, 
-        playerTeam, 
-        playerPosition, 
-        playerWar, 
-        playerGames, 
-        playerHomeruns, 
-        playerRbi, 
-        playerStolenBases, 
-        playerBattingAvg
-    );
+        const selectedPlayer = players[randIndex];
 
-    console.log("the player ---->", playerInfo);
+        const playerName = selectedPlayer.Player.replace("\ufeff", "").trim();
+        const playerHeadshot = selectedPlayer.Headshot.replace("&comma;", ",").trim();
+        const playerPosition = selectedPlayer.Pos;
+        const playerTeam = selectedPlayer.Team.trim();
+        const playerWar = selectedPlayer.WAR;
+        const playerGames = selectedPlayer.G;
+        const playerHomeruns = selectedPlayer.HR;
+        const playerRbi = selectedPlayer.RBI;
+        const playerStolenBases = selectedPlayer.SB;
+        const playerBattingAvg = selectedPlayer.BA * 1000;
 
-    return playerInfo;
+        const playerInfo = new Player(
+            playerName, 
+            playerHeadshot, 
+            playerTeam, 
+            playerPosition, 
+            playerWar, 
+            playerGames, 
+            playerHomeruns, 
+            playerRbi, 
+            playerStolenBases, 
+            playerBattingAvg
+        );
+
+        console.log("the player ---->", playerInfo);
+        playerList.push(playerInfo)
+    }
+
+    return playerList
 }

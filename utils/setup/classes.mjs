@@ -16,21 +16,50 @@ export class Player {
 }
 
 export class Session {
-    constructor(sessionID, player) {
-        this.answer = player.name
+    constructor(sessionID, players) {
+        this.answers = this.getAnswers(players);
         this.sessionInfo = {
             sessionID: sessionID,
-            playerInfo: player,
+            playersInfo: players,
             sessionStart: moment().toISOString(),
             sessionEnd: "",
         }
         this.sessionStatus = {
             curPlayer: 0,
-            playerGuesses: 0,
-            correctGuesses: [null, null, null],
+            strikes: [],
+            outs: [],
             active: true
         }
-        this.clearName();
+        this.clearNames();
+    }
+
+    evalPlay(result) {
+
+        this.sessionStatus.strikes.push(!result);
+
+        if (result || this.sessionStatus.strikes.length == 3) {
+            this.sessionStatus.outs.push(!result);
+            this.sessionStatus.strikes = [];
+            
+            if (this.sessionStatus.curPlayer < 2) {
+                this.sessionStatus.curPlayer += 1;
+            }
+        }
+
+        if (this.sessionStatus.outs.length == 3) {
+            console.log("Session Ended.")
+            this.endSession()
+        }
+    }
+
+    getAnswers(players) {
+        console.log('getAnswers players object ---->', players);
+        let playerNames = []
+        players.forEach(player => {
+            playerNames.push(player.name)
+        });
+
+        return playerNames
     }
 
     endSession() {
@@ -38,8 +67,10 @@ export class Session {
         this.active = false;
     }
 
-    clearName() {
-        delete this.sessionInfo.playerInfo.name
+    clearNames() {
+        this.sessionInfo.playersInfo.forEach(player => {
+            delete player.name
+        })
     }
     
 }

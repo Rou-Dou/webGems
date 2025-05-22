@@ -1,5 +1,5 @@
-import { url, makeGuess, token} from "./script.mjs"; // vars
-import { decodeReadableStream, decodeuint8String, addAnimation, getRelevantPlayerNames, fillDropdownList} from "./helpers.mjs"; //helpers
+import { url, makeGuess, token, SessionInfo} from "./script.mjs"; // vars
+import { decodeReadableStream, decodeuint8String, addAnimation, getRelevantPlayerNames, fillDropdownList, clearChildren, loadPlayer} from "./helpers.mjs"; //helpers
 
 const submitButton = document.getElementById("submitButton");
 
@@ -15,34 +15,54 @@ submitButton.addEventListener('click', (e) =>{
         return decodeReadableStream(value)
     })
     .then((value) => {
-        const newBox = document.createElement("div");
-        newBox.style.animation = "slide-up 0.5s"
+        console.log("decoded stream from makeGuess ---->", value)
+        const parsedUint8 = decodeuint8String(value)
+        const parsedString = JSON.parse(parsedUint8);
+        console.log("session status object ---->", parsedString);
 
-        // console.log("returned from make guess --->", decodeuint8String(value))
-
-        const responseBool = decodeuint8String(value) == "true";
+        const responseBool = parsedString.guessResult == true;
 
         console.log("The response boolean ---->", responseBool)
 
-        document.getElementById("strikes").appendChild(newBox)
+        const pitchResults = parsedString.status.strikes
+
+        clearChildren(document.getElementById("strikes"))
+
+        pitchResults.forEach(result => {
+            const newBox = document.createElement("div");
+            newBox.style.animation = "slide-up 0.5s"
+ 
+            if (!result) {
+
+                newBox.classList.add("greenbox")
+            }
+            else {
+                newBox.classList.add("redbox")
+            }
+
+            document.getElementById("strikes").appendChild(newBox)
+            addAnimation(newBox);
+        })
+
 
         if (document.getElementById("strikes").style.display == "") {
             document.getElementById("strikes").style.display = "flex";
-        }
+        }   
 
-        addAnimation(newBox);
+        SessionInfo
+        .then((session) => {
+            if (session.playersInfo[parsedString.status.curPlayer].headshot != document.querySelector(".playerPicture").src) {
+                loadPlayer(session, parsedString.status.curPlayer);
+            }
+        })
 
-        if (responseBool) {
-
-            newBox.classList.add("greenbox")
-        }
-        else {
-            newBox.classList.add("redbox")
-        }
     });
 });
 
 document.getElementById("guess").addEventListener("input", (e) => {
-    const relevantPlayers = getRelevantPlayerNames(e.target.value)
-    fillDropdownList(relevantPlayers);
+
+    getRelevantPlayerNames(e.target.value)
+    .then((list) => {
+        fillDropdownList(list);
+    })
 })
