@@ -15,16 +15,8 @@ submitButton.addEventListener('click', (e) =>{
         return decodeReadableStream(value)
     })
     .then((value) => {
-        console.log("decoded stream from makeGuess ---->", value)
-        const parsedUint8 = decodeuint8String(value)
-        const parsedString = JSON.parse(parsedUint8);
-        console.log("session status object ---->", parsedString);
-
-        const responseBool = parsedString.guessResult == true;
-
-        console.log("The response boolean ---->", responseBool)
-
-        const pitchResults = parsedString.status.strikes
+        const parsedValue = JSON.parse(decodeuint8String(value))
+        const pitchResults = parsedValue.status.strikes
 
         clearChildren(document.getElementById("strikes"))
 
@@ -51,8 +43,10 @@ submitButton.addEventListener('click', (e) =>{
 
         SessionInfo
         .then((session) => {
-            if (session.playersInfo[parsedString.status.curPlayer].headshot != document.querySelector(".playerPicture").src) {
-                loadPlayer(session, parsedString.status.curPlayer);
+            const currentPlayer = document.querySelector(".playerPicture").src
+            const returnedPlayer = session.playersInfo[parsedValue.status.curPlayer].headshot
+            if (returnedPlayer != currentPlayer) {
+                loadPlayer(session, parsedValue.status.curPlayer);
             }
         })
 
