@@ -2,6 +2,7 @@ import moment from "moment";
 
 export class Player {
     constructor(name, headshot, team, position, war, games, homeruns, rbi, stolenBases, battingAvg) {
+        console.log(`reating player ${name}`)
         this.name = name;
         this.headshot = headshot;
         this.Team = team;
@@ -17,6 +18,7 @@ export class Player {
 
 export class Session {
     constructor(sessionID, players) {
+        console.log(`creating new session with \n sessionID: ${sessionID}\n\n and object: ${players}`)
         this.answers = this.getAnswers(players);
         this.sessionInfo = {
             sessionID: sessionID,
@@ -55,8 +57,8 @@ export class Session {
     getAnswers(players) {
         console.log('getAnswers players object ---->', players);
         let playerNames = []
-        players.forEach(player => {
-            playerNames.push(player.name)
+        players.forEach(p => {
+            playerNames.push(p.name)
         });
 
         return playerNames

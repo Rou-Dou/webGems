@@ -4,62 +4,48 @@ export function decodeReadableStream(stream) {
 
     let reader = stream.body.getReader();   
 
-    if (reader.locked) {
-        reader.releaseLock()
-
-        reader = stream.body.getReader();
-    }
-
     let result = []
 
     return reader.read()
     .then(function readStream({done, value}) {
 
         if (done) {
-            console.log("Reading Stream Complete");
-            reader.releaseLock();
             return result[0];
         }
 
         result.push(value)
-
-        // console.log("unfinished reader ---->", value)
-
         return reader.read().then(readStream);
     })
 }
 
 export function decodeuint8String(string) {
-    return new TextDecoder().decode(string)
+    return new TextDecoder().decode(string);
 }
 
 export function addAnimation(element) {
 
-    if (!element.previousSibling) return;
+    let prevSibling = element.previousSibling;
 
-    if (element.previousSibling.classList.contains("redbox") || element.previousSibling.classList.contains("greenbox")) {
-        element.previousSibling.style.animation = "slide-left 0.5s";
+    if (!prevSibling) return;
+
+    if (prevSibling.classList.contains("redbox") || prevSibling.classList.contains("greenbox")) {
+        prevSibling.style.animation = "slide-left 0.5s";
         return;
     }
 }
 
 function fillAnswerWithListValue(text) {
-    document.getElementById("guess").value = text
+    document.getElementById("guess").value = text;
 }
 
 export function fillDropdownList(list) {
     let playerList = document.getElementById("playerNameList");
-
-    console.log("the list --->", list)
-
+    clearChildren(playerList);
+    
     if (list.length == 0) {
-        console.log("list length = 0");
         document.getElementById("playerNameDropdown").classList.add("hidden");
-        clearChildren(playerList);
         return;
     }
-
-    clearChildren(playerList);
 
     document.getElementById("playerNameDropdown").classList.remove("hidden");
     const playerNameList = document.getElementById("playerNameList")
@@ -69,15 +55,27 @@ export function fillDropdownList(list) {
         newListItem.classList.add("playerNameListItem")
         newListItem.innerText = name
         playerNameList.appendChild(newListItem);
+
         newListItem.addEventListener("click", (e) => {
             fillAnswerWithListValue(e.target.innerText);
             document.getElementById("playerNameDropdown").classList.add("hidden")
             clearChildren(playerList);
         })
+
+        newListItem.addEventListener("mouseover", (e) => {
+            fillAnswerWithListValue(e.target.innerText);
+            e.target.classList.add("listItemHover");
+        })
+
+        newListItem.addEventListener("mouseleave", (e) => {
+            document.getElementById("guess").innerText = "";
+            e.target.classList.remove("listItemHover");
+        })
     }
+    console.log(playerList)
 }
 
-export function getRelevantPlayerNames(text) {
+export async function getRelevantPlayerNames(text) {
     console.log("this is the input text ---->", text);
 
     if (text == "") {
@@ -125,3 +123,11 @@ export function loadPlayer(session, playerIndex) {
 
     return;
 }
+
+// class elementSelector {
+//     constructor(element) {
+//         this.elementOptions = element.children;
+//         this.curElement = element.firstChild
+//         this.
+//     }
+// }

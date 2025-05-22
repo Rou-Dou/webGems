@@ -5,6 +5,7 @@ import { gameSessions } from "../server.mjs";
 
 // returns a random player object to be used for the session answer.
 export function getPlayerFromDb (req, res) {
+  log("called getPlayerFromDb", 200);
   let randPlayer = getRandomPlayer(players);
 
   console.log("rand Player ---->", randPlayer);

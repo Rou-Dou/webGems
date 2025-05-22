@@ -360,6 +360,10 @@ button {
   background-color: #242424;
 }
 
+.listItemHover {
+    background-color: #434343;
+}
+
 #playerNameList {
     width: 100%;
     border: #434343 1px solid;
