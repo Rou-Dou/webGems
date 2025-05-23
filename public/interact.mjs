@@ -27,16 +27,18 @@ document.addEventListener("keydown", (e) => {
     }
 
     if (e.key === "ArrowDown") {
-        for (let item of listItems) { 
+        for (let item of listItems) {
 
             if (item.classList.contains("listItemHover") && item != dropdownElement.lastChild) {
                 item.classList.remove("listItemHover");
                 item.nextSibling.classList.add("listItemHover");
-                document.getElementById("guess").value = item.nextSibling.innerText
+                document.getElementById("guess").value = item.nextSibling.innerText;
                 return;
             }
         }
-        listItems[0].classList.add("listItemHover")
+        listItems[listItems.length -1].classList.add("listItemHover");
+        document.getElementById("guess").value = listItems[listItems.length - 1].innerText;
+
     }
 
     else if (e.key === "ArrowUp") {
@@ -44,11 +46,12 @@ document.addEventListener("keydown", (e) => {
             if (item.classList.contains("listItemHover") && item != dropdownElement.firstChild) {
                 item.classList.remove("listItemHover");
                 item.previousSibling.classList.add("listItemHover");
-                document.getElementById("guess").value = item.previousSibling.innerText
+                document.getElementById("guess").value = item.previousSibling.innerText;
                 return;
             }
         }
         listItems[0].classList.add("listItemHover");
+        document.getElementById("guess").value = listItems[0].innerText;
     }
 });
 submitButton.addEventListener('click', (e) =>{

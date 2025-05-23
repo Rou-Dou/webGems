@@ -8,6 +8,12 @@ const getToken = "/api/getSessionToken";
 const getSession = "/api/getSessionInfo";
 const getPlayerList = "/api/getPlayerList";
 
+window.onload = () => {
+    document.querySelectorAll("input").forEach(input => {
+        input.value = ""
+    })
+}
+
 export let playerNames = fetch(`${url}${getPlayerList}`)
     .then((value) => {
         console.log("fetching player names")
