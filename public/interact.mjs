@@ -6,6 +6,7 @@ import { getRelevantPlayerNames } from "./helpers.mjs";
 import { fillDropdownList } from "./helpers.mjs";
 import { clearChildren } from "./helpers.mjs"; 
 import { loadPlayer } from "./helpers.mjs";
+import { playerNames } from "./script.mjs";
 
 const submitButton = document.getElementById("submitButton");
 
@@ -13,11 +14,6 @@ document.addEventListener("keydown", (e) => {
     console.log(e.key)
 
     const listItems = document.querySelectorAll(".playerNameListItem")
-
-    if (document.getElementById("playerNameDropdown").classList.contains("hidden")) {
-        return;
-    }
-
     const dropdownContainer = document.getElementById("playerNameDropdown")
     const dropdownElement = document.getElementById("playerNameList")
 
@@ -26,7 +22,11 @@ document.addEventListener("keydown", (e) => {
         dropdownContainer.classList.add("hidden");
     }
 
-    else if (e.key === "ArrowDown") {
+    if (document.getElementById("playerNameDropdown").classList.contains("hidden")) {
+        return;
+    }
+
+    if (e.key === "ArrowDown") {
         for (let item of listItems) { 
 
             if (item.classList.contains("listItemHover") && item != dropdownElement.lastChild) {
@@ -52,10 +52,14 @@ document.addEventListener("keydown", (e) => {
     }
 });
 submitButton.addEventListener('click', (e) =>{
-
-    console.log(token)
+    
     let userText = document.getElementById("guess");
     const guess = userText.value;
+
+    if (guess.trim() == "" || !playerNames.contains(guess)) {
+        return;
+    }
+
     userText.value = ""; // reset the input text box for next input
 
     const response = fetch(`${url}${makeGuess}/${token}/${guess}`);
