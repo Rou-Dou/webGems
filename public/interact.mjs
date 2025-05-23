@@ -59,7 +59,7 @@ submitButton.addEventListener('click', (e) =>{
     let userText = document.getElementById("guess");
     const guess = userText.value;
 
-    if (guess.trim() == "" || !playerNames.includes(guess)) {
+    if (guess.trim() == "" || !playerNames.then((value) => value.includes(guess))) {
         return;
     }
 
