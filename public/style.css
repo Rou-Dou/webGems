@@ -66,6 +66,7 @@ input[type="text"]::before{
 }
 
 button {
+    margin-top: 1%;
     margin-bottom: 10px;
 }
 
@@ -390,12 +391,17 @@ button {
     overflow: hidden;
 }
 
-#submitButton{
-    margin: auto;
-}
-
 #guessContainer {
     margin:auto;
     width: 50%;
 }
+
+#buttonRow {
+    justify-content: center;
+}
+
+#submitButton {
+    margin-right: 1%;
+}
+
 

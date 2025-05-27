@@ -25,8 +25,6 @@ export class Session {
             playersInfo: players,
             sessionStart: moment().toISOString(),
             sessionEnd: "",
-        }
-        this.sessionStatus = {
             curPlayer: 0,
             strikes: [],
             outs: [],
@@ -37,18 +35,18 @@ export class Session {
 
     evalPlay(result) {
 
-        this.sessionStatus.strikes.push(!result);
+        this.sessionInfo.strikes.push(!result);
 
-        if (result || this.sessionStatus.strikes.length == 3) {
-            this.sessionStatus.outs.push(!result);
-            this.sessionStatus.strikes = [];
+        if (result || this.sessionInfo.strikes.length == 3) {
+            this.sessionInfo.outs.push(!result);
+            this.sessionInfo.strikes = [];
             
-            if (this.sessionStatus.curPlayer < 2) {
-                this.sessionStatus.curPlayer += 1;
+            if (this.sessionInfo.curPlayer < 2) {
+                this.sessionInfo.curPlayer += 1;
             }
         }
 
-        if (this.sessionStatus.outs.length == 3) {
+        if (this.sessionInfo.outs.length == 3) {
             console.log("Session Ended.")
             this.endSession()
         }
@@ -65,8 +63,8 @@ export class Session {
     }
 
     endSession() {
-        this.sessionEnd = moment().toISOString();
-        this.active = false;
+        this.sessionInfo.sessionEnd = moment().toISOString();
+        this.sessionInfo.active = false;
     }
 
     clearNames() {

@@ -55,7 +55,7 @@ export function searchSession(sessions, token) {
     for (let session of sessions) {
         console.log("Session ----> ", session);
         console.log("token ----> ", token);
-        if (token === session.sessionInfo.sessionID && session.sessionStatus.active) {
+        if (token === session.sessionInfo.sessionID && session.sessionInfo.active) {
             console.log("token matched and active!");
             return {
                 sessionObj: session,

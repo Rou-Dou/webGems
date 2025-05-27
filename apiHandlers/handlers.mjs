@@ -58,11 +58,16 @@ export function makeGuess (req, res) {
   const guess = req.params.guess;
   const response = searchSession(gameSessions.Sessions, token);
 
+  if (!response.sessionObj.sessionInfo.active) {
+    console.log("This session is no longer active");
+    return response;
+  }
+
   console.log("Make Guess sessionObj object before processing ---->", response.sessionObj)
 
   res.status(200);
 
-  const currentPlayerIndex = response.sessionObj.sessionStatus.curPlayer;
+  const currentPlayerIndex = response.sessionObj.sessionInfo.curPlayer;
   let returnStatus = response.sessionObj.answers[currentPlayerIndex] == guess
 
   response.sessionObj.evalPlay(returnStatus)
@@ -70,7 +75,7 @@ export function makeGuess (req, res) {
   console.log("after modification ---->", response.sessionObj)
 
   const resJson = {
-    status: response.sessionObj.sessionStatus,
+    status: response.sessionObj.sessionInfo,
     guessResult: returnStatus
   }
 

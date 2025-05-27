@@ -1,113 +1,117 @@
-import { url, makeGuess, token, SessionInfo} from "./script.mjs"; // vars
-import { decodeReadableStream } from "./helpers.mjs";
-import { decodeuint8String } from "./helpers.mjs";
+import { url } from "./script.mjs";
+import { makeGuess } from "./script.mjs";
+import { token } from "./script.mjs";
+import { playerNames } from "./script.mjs";
 import { addAnimation } from "./helpers.mjs"; 
 import { getRelevantPlayerNames } from "./helpers.mjs";
 import { fillDropdownList } from "./helpers.mjs";
 import { clearChildren } from "./helpers.mjs"; 
 import { loadPlayer } from "./helpers.mjs";
-import { playerNames } from "./script.mjs";
+import { childHasClass } from "./helpers.mjs";
+import { selectListItem } from "./helpers.mjs";
 
 const submitButton = document.getElementById("submitButton");
 
 document.addEventListener("keydown", (e) => {
-    console.log(e.key)
 
-    const listItems = document.querySelectorAll(".playerNameListItem")
-    const dropdownContainer = document.getElementById("playerNameDropdown")
     const dropdownElement = document.getElementById("playerNameList")
+    const dropdownContainer = document.getElementById("playerNameDropdown")
+    const listItems = dropdownElement.children
+    let itemSelected = false
+    let childHasClassResult;
 
-    if (e.key === "Enter") {
-        submitButton.click();
-        dropdownContainer.classList.add("hidden");
-    }
+    switch (e.key) {
 
-    if (document.getElementById("playerNameDropdown").classList.contains("hidden")) {
-        return;
-    }
-
-    if (e.key === "ArrowDown") {
-        for (let item of listItems) {
-
-            if (item.classList.contains("listItemHover") && item != dropdownElement.lastChild) {
-                item.classList.remove("listItemHover");
-                item.nextSibling.classList.add("listItemHover");
-                document.getElementById("guess").value = item.nextSibling.innerText;
-                return;
-            }
+    case "Enter":
+        if (dropdownContainer.classList.contains("hidden")) {
+            submitButton.click();
         }
-        listItems[listItems.length -1].classList.add("listItemHover");
-        document.getElementById("guess").value = listItems[listItems.length - 1].innerText;
+        else dropdownContainer.classList.add("hidden");
 
-    }
+        break;
 
-    else if (e.key === "ArrowUp") {
-        for (let item of listItems) {
-            if (item.classList.contains("listItemHover") && item != dropdownElement.firstChild) {
-                item.classList.remove("listItemHover");
-                item.previousSibling.classList.add("listItemHover");
-                document.getElementById("guess").value = item.previousSibling.innerText;
-                return;
-            }
+    case "ArrowDown": 
+        childHasClassResult = childHasClass(listItems, "listItemHover");
+        if (childHasClassResult.found && childHasClassResult.childElement != dropdownElement.lastChild) {
+            itemSelected = selectListItem(childHasClassResult.childElement, "listItemHover", "down")
+            break;
         }
-        listItems[0].classList.add("listItemHover");
-        document.getElementById("guess").value = listItems[0].innerText;
+        if (!itemSelected && !dropdownElement.lastChild.classList.contains("listItemHover")) {
+            listItems[0].classList.add("listItemHover");
+            document.getElementById("guess").value = listItems[0].innerText;
+        }
+
+        break;
+
+    case "ArrowUp": 
+        childHasClassResult = childHasClass(listItems, "listItemHover");
+        if (childHasClassResult.found && childHasClassResult.childElement != dropdownElement.firstChild) {
+            itemSelected = selectListItem(childHasClassResult.childElement, "listItemHover", "up")
+            break;
+        }
+
+        if (!itemSelected && !dropdownElement.firstChild.classList.contains("listItemHover")) {
+            listItems[0].classList.add("listItemHover");
+            document.getElementById("guess").value = listItems[0].innerText;
+        }
+        break;
     }
 });
+
 submitButton.addEventListener('click', (e) =>{
     
     let userText = document.getElementById("guess");
     const guess = userText.value;
+    userText.value = ""; // reset the input text box for next input
 
     if (guess.trim() == "" || !playerNames.then((value) => value.includes(guess))) {
         return;
     }
 
-    userText.value = ""; // reset the input text box for next input
-
-    const response = fetch(`${url}${makeGuess}/${token}/${guess}`);
-    
-    response
+    fetch(`${url}${makeGuess}/${token}/${guess}`)
     .then((value)=> {
-        return decodeReadableStream(value)
+        return value.json()
     })
-    .then((value) => {
-        const parsedValue = JSON.parse(decodeuint8String(value))
-        const pitchResults = parsedValue.status.strikes
+    .then((sessionInfo) => {
+        
+        clearChildren(document.getElementById("strikes"));
 
-        clearChildren(document.getElementById("strikes"))
+        const pitchResults = sessionInfo.status.strikes;
 
         pitchResults.forEach(result => {
             const newBox = document.createElement("div");
-            newBox.style.animation = "slide-up 0.5s"
+            newBox.style.animation = "slide-up 0.5s";
  
             if (!result) {
 
-                newBox.classList.add("greenbox")
+                newBox.classList.add("greenbox");
             }
             else {
-                newBox.classList.add("redbox")
+                newBox.classList.add("redbox");
             }
 
-            document.getElementById("strikes").appendChild(newBox)
             addAnimation(newBox);
+            document.getElementById("strikes").appendChild(newBox);
         })
 
 
         if (document.getElementById("strikes").style.display == "") {
             document.getElementById("strikes").style.display = "flex";
-        }   
+        }
 
-        SessionInfo
-        .then((session) => {
-            const currentPlayer = document.querySelector(".playerPicture").src
-            const returnedPlayer = session.playersInfo[parsedValue.status.curPlayer].headshot
-            if (returnedPlayer != currentPlayer) {
-                loadPlayer(session, parsedValue.status.curPlayer);
+        const currentPlayer = document.querySelector(".playerPicture").src;
+        const returnedPlayer = sessionInfo.status.playersInfo[sessionInfo.status.curPlayer].headshot;
+        if (returnedPlayer != currentPlayer) {
+            if (!document.getElementById("nextPlayerButton")) {
+                const newButton = document.createElement("button");
+                newButton.id = "nextPlayerButton";
+                newButton.type = "button";
+                newButton.innerHTML = "Next Player";
+                document.getElementById("submitButton").parentElement.appendChild(newButton);
+                newButton.addEventListener("click", loadPlayer);
             }
-        })
-
-    });
+        }
+    })
 });
 
 document.getElementById("guess").addEventListener("input", async (e) => {
