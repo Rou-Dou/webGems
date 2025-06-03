@@ -109,6 +109,13 @@ export function loadPlayer() {
             listItem.innerText = session.playersInfo[playerIndex][listItem.id]
         }
 
+        enableElements(document.getElementById("guessContainer").children);
+        enableElements(document.getElementById("buttonRow").children);
+        clearChildren(document.getElementById("strikes"));
+        if (document.getElementById("nextPlayerButton")) {
+            document.getElementById("nextPlayerButton").remove();
+        }
+
     })
 }
 
@@ -123,12 +130,13 @@ export function childHasClass(parent, className) {
     }
     return {
         found: false,
-        childElement: null 
+        childElement: null
     }
 }
 
 export function selectListItem(child, className, direction) {
     if (direction === "down") {
+        
         child.classList.remove(className);
         child.nextSibling.classList.add(className);
         fillAnswerWithListValue(child.nextSibling.innerText)
@@ -142,4 +150,29 @@ export function selectListItem(child, className, direction) {
     }
 
     return true;
+}
+
+export function disableElements(parent) {
+    for (let child of parent) {
+        console.log(child.nodeName);
+        if (child.nodeName == "INPUT" || child.nodeName  == "BUTTON") {
+            child.disabled = true;
+            console.log(child.id, "has been disabled")
+        }
+        if (child.hasChildNodes()) {
+            disableElements(child.children)
+        }
+    }
+}
+export function enableElements(parent) {
+    for (let child of parent) {
+        console.log(child.nodeName);
+        if (child.nodeName == "INPUT" || child.nodeName  == "BUTTON") {
+            child.disabled = false;
+            console.log(child.id, "has been enabled")
+        }
+        if (child.hasChildNodes()) {
+            enableElements(child.children)
+        }
+    }
 }

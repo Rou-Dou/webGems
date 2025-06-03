@@ -9,6 +9,7 @@ import { clearChildren } from "./helpers.mjs";
 import { loadPlayer } from "./helpers.mjs";
 import { childHasClass } from "./helpers.mjs";
 import { selectListItem } from "./helpers.mjs";
+import { disableElements } from "./helpers.mjs";
 
 const submitButton = document.getElementById("submitButton");
 
@@ -31,6 +32,11 @@ document.addEventListener("keydown", (e) => {
         break;
 
     case "ArrowDown": 
+        
+        if (dropdownContainer.classList.contains("hidden")) {
+            break;
+        }
+
         childHasClassResult = childHasClass(listItems, "listItemHover");
         if (childHasClassResult.found && childHasClassResult.childElement != dropdownElement.lastChild) {
             itemSelected = selectListItem(childHasClassResult.childElement, "listItemHover", "down")
@@ -44,6 +50,10 @@ document.addEventListener("keydown", (e) => {
         break;
 
     case "ArrowUp": 
+        if (dropdownContainer.classList.contains("hidden")) {
+            break;
+        }
+        
         childHasClassResult = childHasClass(listItems, "listItemHover");
         if (childHasClassResult.found && childHasClassResult.childElement != dropdownElement.firstChild) {
             itemSelected = selectListItem(childHasClassResult.childElement, "listItemHover", "up")
@@ -73,35 +83,13 @@ submitButton.addEventListener('click', (e) =>{
         return value.json()
     })
     .then((sessionInfo) => {
-        
-        clearChildren(document.getElementById("strikes"));
-
-        const pitchResults = sessionInfo.status.strikes;
-
-        pitchResults.forEach(result => {
-            const newBox = document.createElement("div");
-            newBox.style.animation = "slide-up 0.5s";
- 
-            if (!result) {
-
-                newBox.classList.add("greenbox");
-            }
-            else {
-                newBox.classList.add("redbox");
-            }
-
-            addAnimation(newBox);
-            document.getElementById("strikes").appendChild(newBox);
-        })
-
-
-        if (document.getElementById("strikes").style.display == "") {
-            document.getElementById("strikes").style.display = "flex";
-        }
+        console.log('returned sessio info', sessionInfo);
 
         const currentPlayer = document.querySelector(".playerPicture").src;
         const returnedPlayer = sessionInfo.status.playersInfo[sessionInfo.status.curPlayer].headshot;
         if (returnedPlayer != currentPlayer) {
+            disableElements(document.getElementById("guessContainer").children);
+            disableElements(document.getElementById("buttonRow").children);
             if (!document.getElementById("nextPlayerButton")) {
                 const newButton = document.createElement("button");
                 newButton.id = "nextPlayerButton";
@@ -109,7 +97,64 @@ submitButton.addEventListener('click', (e) =>{
                 newButton.innerHTML = "Next Player";
                 document.getElementById("submitButton").parentElement.appendChild(newButton);
                 newButton.addEventListener("click", loadPlayer);
+            
             }
+            const newBox = document.createElement("div");
+            newBox.style.animation = "slide-up 0.5s";
+
+            if (sessionInfo.guessResult) {
+                newBox.classList.add("greenbox");
+            }
+            else {
+                newBox.classList.add('redbox');
+            }
+            addAnimation(newBox);
+            document.getElementById("strikes").appendChild(newBox);
+
+        }
+
+        else if (!sessionInfo.status.active) {
+            disableElements(document.getElementById("guessContainer").children)
+            disableElements(document.getElementById("buttonRow").children);
+            const newBox = document.createElement("div");
+            newBox.style.animation = "slide-up 0.5s";
+
+            if (sessionInfo.guessResult) {
+                newBox.classList.add("greenbox");
+            }
+            else {
+                newBox.classList.add('redbox');
+            }
+            addAnimation(newBox);
+            document.getElementById("strikes").appendChild(newBox);
+        }
+
+        else {
+
+            clearChildren(document.getElementById("strikes"));
+
+            const pitchResults = sessionInfo.status.strikes;
+
+            pitchResults.forEach(result => {
+                const newBox = document.createElement("div");
+                newBox.style.animation = "slide-up 0.5s";
+    
+                if (!result) {
+
+                    newBox.classList.add("greenbox");
+                }
+                else {
+                    newBox.classList.add("redbox");
+                }
+
+                addAnimation(newBox);
+                document.getElementById("strikes").appendChild(newBox);
+            })
+        }
+
+
+        if (document.getElementById("strikes").style.display == "") {
+            document.getElementById("strikes").style.display = "flex";
         }
     })
 });
